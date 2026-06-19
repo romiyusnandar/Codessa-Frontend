@@ -1,65 +1,86 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { loginWithGithub } from "@/lib/api";
+
+const features = [
+  {
+    title: "Auto-review tiap PR baru",
+    description:
+      "Codessa otomatis menganalisis setiap pull request baru di repository kamu, tanpa perlu trigger manual.",
+  },
+  {
+    title: "Multi-bahasa programming",
+    description:
+      "Mendukung berbagai bahasa pemrograman, jadi cocok untuk stack apa pun yang kamu pakai.",
+  },
+  {
+    title: "History tersimpan",
+    description:
+      "Setiap hasil review tersimpan rapi, lengkap dengan komentar per file dan tingkat severity-nya.",
+  },
+  {
+    title: "Custom bahasa output review",
+    description:
+      "Atur bahasa hasil review sesuai preferensi tim kamu, misalnya Bahasa Indonesia atau English.",
+  },
+];
+
+function LoginErrorBanner() {
+  const searchParams = useSearchParams();
+  const loginError = searchParams.get("login_error");
+
+  if (!loginError) return null;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="mx-auto mb-6 w-full max-w-2xl rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      Login gagal: {loginError}
     </div>
+  );
+}
+
+export default function LandingPage() {
+  return (
+    <main className="flex flex-1 flex-col items-center justify-center bg-gradient-to-b from-slate-50 to-white px-6 py-16">
+      <Suspense fallback={null}>
+        <LoginErrorBanner />
+      </Suspense>
+
+      <section className="flex max-w-2xl flex-col items-center text-center">
+        <span className="mb-4 rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
+          AI Pull Request Review
+        </span>
+        <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+          Codessa
+        </h1>
+        <p className="mt-4 text-lg text-slate-600">
+          AI yang otomatis review pull request GitHub kamu, untuk bahasa program apa pun.
+          Tinggal install, dan setiap PR baru langsung mendapat review.
+        </p>
+
+        <button
+          onClick={loginWithGithub}
+          className="mt-8 inline-flex items-center gap-2 rounded-lg bg-slate-900 px-6 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-slate-700"
+        >
+          <svg viewBox="0 0 16 16" className="h-5 w-5 fill-current" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+          </svg>
+          Login with GitHub
+        </button>
+      </section>
+
+      <section className="mt-20 grid w-full max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
+        {features.map((feature) => (
+          <div
+            key={feature.title}
+            className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
+            <h3 className="font-semibold text-slate-900">{feature.title}</h3>
+            <p className="mt-2 text-sm text-slate-600">{feature.description}</p>
+          </div>
+        ))}
+      </section>
+    </main>
   );
 }
