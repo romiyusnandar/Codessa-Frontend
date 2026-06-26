@@ -53,7 +53,7 @@ export function SettingsSection({
             setSaveError(null);
           }}
           disabled={isLoadingLanguages}
-          className="rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none disabled:opacity-50"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-500 focus:outline-none disabled:opacity-50"
         >
           {languages?.map((language) => (
             <option key={language.code} value={language.code}>

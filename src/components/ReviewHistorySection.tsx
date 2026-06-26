@@ -18,7 +18,7 @@ export function ReviewHistorySection() {
         placeholder="Filter by repo (owner/name)..."
         value={repoFilter}
         onChange={(e) => setRepoFilter(e.target.value)}
-        className="mt-4 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none"
+        className="mt-4 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:outline-none"
       />
 
       {error && <p className="mt-4 text-sm text-red-600">Gagal memuat review history.</p>}
