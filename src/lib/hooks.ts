@@ -1,8 +1,19 @@
-import useSWR from "swr";
+import useSWR, { mutate as globalMutate } from "swr";
 import { apiFetch } from "./api";
 import { AuthMeResponse, Language, RepositoriesResponse, Review } from "./types";
 
 const fetcher = <T,>(path: string) => apiFetch<T>(path);
+
+// Different pages query /repositories with different params (page, search,
+// enabled filter), so each gets its own SWR cache key. Revalidate all of
+// them together whenever a repo is enabled/disabled from anywhere.
+export function revalidateRepositories() {
+  return globalMutate(
+    (key) => typeof key === "string" && key.startsWith("/repositories"),
+    undefined,
+    { revalidate: true },
+  );
+}
 
 export function useAuthMe() {
   const { data, error, isLoading, mutate } = useSWR<AuthMeResponse>("/auth/me", fetcher, {

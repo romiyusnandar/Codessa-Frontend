@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { setRepositoryEnabled } from "@/lib/api";
-import { useRepositories, useReviews } from "@/lib/hooks";
+import { revalidateRepositories, useRepositories, useReviews } from "@/lib/hooks";
 import { AddRepositoryModal } from "@/components/AddRepositoryModal";
 import { StatusDot, reviewStatusDotColor } from "@/components/StatusDot";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -14,12 +14,7 @@ const RECENT_LIMIT = 5;
 export default function OverviewPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [togglingRepo, setTogglingRepo] = useState<string | null>(null);
-  const { repositories, isLoading, error, mutate } = useRepositories(
-    1,
-    ENABLED_PER_PAGE,
-    "",
-    true,
-  );
+  const { repositories, isLoading, error } = useRepositories(1, ENABLED_PER_PAGE, "", true);
   const { reviews } = useReviews();
 
   const enabledRepos = repositories?.data ?? [];
@@ -30,7 +25,7 @@ export default function OverviewPage() {
     setTogglingRepo(key);
     try {
       await setRepositoryEnabled(owner, name, false);
-      await mutate();
+      await revalidateRepositories();
     } finally {
       setTogglingRepo(null);
     }
@@ -132,7 +127,7 @@ export default function OverviewPage() {
                   <StatusDot color={reviewStatusDotColor[review.status]} />
                   <div>
                     <p className="text-sm font-medium text-ink">
-                      {review.repo ?? "—"}{" "}
+                      {review.repositoryFullName}{" "}
                       <span className="text-ink-muted">#{review.pullNumber}</span>
                     </p>
                     <p className="text-xs text-ink-muted">

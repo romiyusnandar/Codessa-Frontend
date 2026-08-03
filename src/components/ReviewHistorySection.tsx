@@ -43,7 +43,8 @@ export function ReviewHistorySection() {
                     <StatusDot color={reviewStatusDotColor[review.status]} />
                     <div>
                       <p className="text-sm font-medium text-ink">
-                        PR #{review.pullNumber}{" "}
+                        {review.repositoryFullName}{" "}
+                        <span className="text-ink-muted">#{review.pullNumber}</span>{" "}
                         <span className="font-mono text-xs text-ink-muted">
                           {review.commitSha.slice(0, 7)}
                         </span>

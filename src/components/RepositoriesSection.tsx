@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { installGithubApp, setRepositoryEnabled } from "@/lib/api";
-import { useRepositories } from "@/lib/hooks";
+import { revalidateRepositories, useRepositories } from "@/lib/hooks";
 import { StatusDot } from "@/components/StatusDot";
 
 const PER_PAGE = 10;
@@ -12,7 +12,7 @@ export function RepositoriesSection({ embedded = false }: { embedded?: boolean }
   const [search, setSearch] = useState("");
   const [togglingRepo, setTogglingRepo] = useState<string | null>(null);
 
-  const { repositories, isLoading, error, mutate } = useRepositories(page, PER_PAGE, search);
+  const { repositories, isLoading, error } = useRepositories(page, PER_PAGE, search);
 
   // Independent of the search/page above, so the Install button doesn't
   // reappear just because a search filters the visible list down to zero.
@@ -24,7 +24,7 @@ export function RepositoriesSection({ embedded = false }: { embedded?: boolean }
     setTogglingRepo(key);
     try {
       await setRepositoryEnabled(owner, name, enable);
-      await mutate();
+      await revalidateRepositories();
     } finally {
       setTogglingRepo(null);
     }

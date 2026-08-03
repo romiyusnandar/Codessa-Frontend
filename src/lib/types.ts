@@ -51,13 +51,16 @@ export interface ReviewComment {
 
 export interface Review {
   _id: string;
+  repositoryId: string;
+  repositoryFullName: string;
   pullNumber: number;
   commitSha: string;
   status: ReviewStatus;
   summary: string;
   comments: ReviewComment[];
   errorMessage?: string;
+  promptTokens?: number;
+  completionTokens?: number;
   createdAt: string;
   finishedAt?: string;
-  repo?: string;
 }
