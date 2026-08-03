@@ -11,12 +11,13 @@ export function useAuthMe() {
   return { user: data, error, isLoading, mutate };
 }
 
-export function useRepositories(page: number, perPage: number, search: string) {
+export function useRepositories(page: number, perPage: number, search: string, enabled?: boolean) {
   const params = new URLSearchParams({
     page: String(page),
     perPage: String(perPage),
   });
   if (search) params.set("search", search);
+  if (enabled !== undefined) params.set("enabled", String(enabled));
 
   const { data, error, isLoading, mutate } = useSWR<RepositoriesResponse>(
     `/repositories?${params.toString()}`,

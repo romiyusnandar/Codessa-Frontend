@@ -26,7 +26,8 @@ export interface Repository {
   defaultBranch: string;
   enabled: boolean;
   installationId: number;
-  githubRepoId: number;
+  githubRepoId: string;
+  createdAt: string;
 }
 
 export interface RepositoriesResponse {

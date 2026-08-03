@@ -8,16 +8,21 @@ import { AddRepositoryModal } from "@/components/AddRepositoryModal";
 import { StatusDot, reviewStatusDotColor } from "@/components/StatusDot";
 import { StatusBadge } from "@/components/StatusBadge";
 
-const MAX_FETCH = 100;
+const ENABLED_PER_PAGE = 100;
 const RECENT_LIMIT = 5;
 
 export default function OverviewPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [togglingRepo, setTogglingRepo] = useState<string | null>(null);
-  const { repositories, isLoading, error, mutate } = useRepositories(1, MAX_FETCH, "");
+  const { repositories, isLoading, error, mutate } = useRepositories(
+    1,
+    ENABLED_PER_PAGE,
+    "",
+    true,
+  );
   const { reviews } = useReviews();
 
-  const enabledRepos = repositories?.data.filter((repo) => repo.enabled) ?? [];
+  const enabledRepos = repositories?.data ?? [];
   const recentReviews = reviews?.slice(0, RECENT_LIMIT) ?? [];
 
   async function disableRepo(owner: string, name: string) {
