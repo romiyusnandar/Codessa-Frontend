@@ -44,3 +44,17 @@ export function loginWithGithub() {
 export function installGithubApp() {
   window.location.href = `${API_URL}/github-app/install`;
 }
+
+export async function setRepositoryEnabled(owner: string, name: string, enable: boolean) {
+  await apiFetch(`/repositories/${owner}/${name}/${enable ? "enable" : "disable"}`, {
+    method: "POST",
+  });
+}
+
+export async function logout() {
+  await fetch(`${API_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+  window.location.href = "/";
+}

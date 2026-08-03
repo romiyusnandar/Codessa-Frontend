@@ -37,11 +37,12 @@ export function SettingsSection({
   }
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-slate-900">Settings</h2>
+    <section className="rounded-lg border border-line bg-white p-6 shadow-sm">
+      <span className="text-xs font-medium uppercase tracking-wide text-ink-muted">Config</span>
+      <h2 className="text-lg font-semibold text-ink">Settings</h2>
 
       <div className="mt-4 flex flex-col gap-2 sm:max-w-sm">
-        <label className="text-sm font-medium text-slate-700" htmlFor="reviewLanguage">
+        <label className="text-sm font-medium text-ink" htmlFor="reviewLanguage">
           Review output language
         </label>
         <select
@@ -53,7 +54,7 @@ export function SettingsSection({
             setSaveError(null);
           }}
           disabled={isLoadingLanguages}
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-slate-500 focus:outline-none disabled:opacity-50"
+          className="rounded-md border border-line bg-white px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none disabled:opacity-50"
         >
           {languages?.map((language) => (
             <option key={language.code} value={language.code}>
@@ -63,19 +64,19 @@ export function SettingsSection({
         </select>
 
         {languagesError && (
-          <p className="text-sm text-red-600">Gagal memuat daftar bahasa.</p>
+          <p className="text-sm text-rust">Gagal memuat daftar bahasa.</p>
         )}
 
         <div className="mt-2 flex items-center gap-3">
           <button
             onClick={handleSave}
             disabled={saving || isLoadingLanguages}
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:opacity-50"
+            className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-accent/90 disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save"}
           </button>
-          {saved && <span className="text-sm text-green-600">Saved!</span>}
-          {saveError && <span className="text-sm text-red-600">{saveError}</span>}
+          {saved && <span className="text-sm text-moss">Saved!</span>}
+          {saveError && <span className="text-sm text-rust">{saveError}</span>}
         </div>
       </div>
     </section>

@@ -10,7 +10,7 @@ export function InstallToast() {
 
   if (installed === "1") {
     return (
-      <div className="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+      <div className="mb-6 rounded-lg border border-moss/25 bg-moss-soft px-4 py-3 text-sm text-moss">
         GitHub App berhasil diinstall. Repository kamu sekarang bisa diaktifkan untuk auto-review.
       </div>
     );
@@ -18,7 +18,7 @@ export function InstallToast() {
 
   if (installError) {
     return (
-      <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      <div className="mb-6 rounded-lg border border-rust/25 bg-rust-soft px-4 py-3 text-sm text-rust">
         Install GitHub App gagal: {installError}
       </div>
     );
@@ -31,11 +31,11 @@ export function TokenRevokedBanner({ tokenRevoked }: { tokenRevoked: boolean }) 
   if (!tokenRevoked) return null;
 
   return (
-    <div className="mb-6 flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+    <div className="mb-6 flex items-center justify-between rounded-lg border border-amber/25 bg-amber-soft px-4 py-3 text-sm text-amber">
       <span>GitHub access revoked, please re-login.</span>
       <button
         onClick={loginWithGithub}
-        className="rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700"
+        className="rounded-md bg-amber px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-amber/90"
       >
         Login again
       </button>
