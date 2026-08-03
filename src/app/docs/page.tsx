@@ -148,8 +148,8 @@ export default function DocsPage() {
                   a: "Bisa, selama repository itu dipilih saat instalasi GitHub App dan diaktifkan di Overview.",
                 },
                 {
-                  q: "Apakah review berjalan untuk bahasa pemrograman tertentu saja?",
-                  a: "Tidak, Codessa mendukung berbagai bahasa pemrograman — yang bisa diganti di Settings adalah bahasa penulisan hasil review, bukan bahasa kode yang direview.",
+                  q: "Bahasa pemrograman apa saja yang didukung?",
+                  a: "Python, JavaScript, PHP, dan Go. Bahasa yang bisa diganti di Settings itu bahasa penulisan hasil review (misalnya Bahasa Indonesia atau English), bukan bahasa kode yang direview.",
                 },
                 {
                   q: "GitHub access saya kok muncul peringatan “Needs reauthorization”?",

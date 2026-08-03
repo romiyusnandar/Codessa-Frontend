@@ -12,9 +12,9 @@ const features = [
       "Codessa otomatis menganalisis setiap pull request baru di repository kamu, tanpa perlu trigger manual.",
   },
   {
-    title: "Multi-bahasa programming",
+    title: "Python, JavaScript, PHP, Go",
     description:
-      "Mendukung berbagai bahasa pemrograman, jadi cocok untuk stack apa pun yang kamu pakai.",
+      "Mendukung empat bahasa pemrograman ini, jadi cocok untuk stack backend maupun frontend yang kamu pakai.",
   },
   {
     title: "History tersimpan",
@@ -73,8 +73,8 @@ export default function LandingPage() {
           </span>
           <h1 className="text-4xl font-bold tracking-tight text-ink sm:text-5xl">Codessa</h1>
           <p className="mt-4 text-lg text-ink-muted">
-            AI yang otomatis review pull request GitHub kamu, untuk bahasa program apa pun.
-            Tinggal install, dan setiap PR baru langsung mendapat review.
+            AI yang otomatis review pull request GitHub kamu untuk Python, JavaScript, PHP,
+            dan Go. Tinggal install, dan setiap PR baru langsung mendapat review.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
