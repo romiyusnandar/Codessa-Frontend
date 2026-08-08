@@ -54,7 +54,7 @@ export default function OverviewPage() {
         {isLoading && <p className="mt-4 text-sm text-ink-muted">Loading...</p>}
 
         {repositories && enabledRepos.length === 0 && (
-          <div className="mt-4 rounded-lg border border-dashed border-line bg-white p-8 text-center">
+          <div className="mt-4 rounded-xl border border-dashed border-line bg-surface p-8 text-center">
             <p className="text-sm text-ink-muted">
               Belum ada repository dengan AI review aktif.
             </p>
@@ -72,7 +72,7 @@ export default function OverviewPage() {
             {enabledRepos.map((repo) => (
               <li
                 key={repo.fullName}
-                className="flex flex-col gap-3 rounded-lg border border-line bg-white p-4 shadow-sm"
+                className="flex flex-col gap-3 rounded-xl border border-line bg-surface p-4 shadow-sm transition hover:border-accent/30 hover:shadow-md"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
@@ -99,7 +99,7 @@ export default function OverviewPage() {
         )}
       </div>
 
-      <div className="rounded-lg border border-line bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-line bg-surface p-6 shadow-sm">
         <div className="flex items-center justify-between gap-3">
           <div>
             <span className="text-xs font-medium uppercase tracking-wide text-ink-muted">

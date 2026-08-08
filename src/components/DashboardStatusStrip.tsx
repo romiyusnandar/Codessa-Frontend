@@ -23,7 +23,7 @@ export function DashboardStatusStrip() {
   const successRate = finished > 0 ? Math.round((successCount / finished) * 100) : undefined;
 
   return (
-    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-line bg-white px-6 py-2.5">
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-line bg-surface px-6 py-2.5">
       <Stat label="repositories" value={totalRepos !== undefined ? String(totalRepos) : "—"} />
       <Stat label="reviews" value={totalReviews !== undefined ? String(totalReviews) : "—"} />
       <Stat

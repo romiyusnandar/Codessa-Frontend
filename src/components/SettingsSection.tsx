@@ -37,9 +37,12 @@ export function SettingsSection({
   }
 
   return (
-    <section className="rounded-lg border border-line bg-white p-6 shadow-sm">
-      <span className="text-xs font-medium uppercase tracking-wide text-ink-muted">Config</span>
-      <h2 className="text-lg font-semibold text-ink">Settings</h2>
+    <section className="rounded-xl border border-line bg-surface p-6 shadow-sm">
+      <span className="text-xs font-medium uppercase tracking-wide text-ink-muted">Review</span>
+      <h2 className="text-lg font-semibold text-ink">Review output</h2>
+      <p className="mt-1 text-sm text-ink-muted">
+        Bahasa penulisan hasil review. Berlaku untuk review berikutnya.
+      </p>
 
       <div className="mt-4 flex flex-col gap-2 sm:max-w-sm">
         <label className="text-sm font-medium text-ink" htmlFor="reviewLanguage">
@@ -54,7 +57,7 @@ export function SettingsSection({
             setSaveError(null);
           }}
           disabled={isLoadingLanguages}
-          className="rounded-md border border-line bg-white px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none disabled:opacity-50"
+          className="rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/10 disabled:opacity-50"
         >
           {languages?.map((language) => (
             <option key={language.code} value={language.code}>

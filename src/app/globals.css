@@ -5,18 +5,47 @@
   --foreground: #0f172a;
 
   --canvas: #f8f9fb;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
   --ink: #0f172a;
   --ink-muted: #64748b;
   --line: #e2e8f0;
+  --grid-line: rgba(29, 99, 173, 0.1);
 
-  --accent: #3730a3;
-  --accent-soft: #eef2ff;
+  --accent: #1d63ad;
+  --accent-soft: #e9f1fb;
   --moss: #15803d;
   --moss-soft: #f0fdf4;
   --rust: #b91c1c;
   --rust-soft: #fef2f2;
   --amber: #b45309;
   --amber-soft: #fffbeb;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --background: #0a0d12;
+  --foreground: #e6edf3;
+
+  --canvas: #0a0d12;
+  --surface: #12161f;
+  --surface-2: #1b212c;
+  --ink: #e6edf3;
+  --ink-muted: #9aa7b6;
+  --line: #262d3a;
+  --grid-line: rgba(87, 160, 230, 0.12);
+
+  --accent: #57a0e6;
+  --accent-soft: #16273c;
+  --moss: #4ade80;
+  --moss-soft: #0f2a1c;
+  --rust: #f87171;
+  --rust-soft: #2a1517;
+  --amber: #fbbf24;
+  --amber-soft: #2a1e0a;
+
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -24,6 +53,8 @@
   --color-foreground: var(--foreground);
 
   --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-line: var(--line);
@@ -45,4 +76,62 @@ body {
   background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(1200%);
+    opacity: 0;
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-cursor {
+  animation: cursor-blink 1.1s step-end infinite;
+}
+
+.animate-scan {
+  animation: scan 3.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-cursor,
+  .animate-scan {
+    animation: none;
+    opacity: 1;
+  }
 }

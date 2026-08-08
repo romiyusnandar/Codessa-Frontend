@@ -13,6 +13,12 @@ export default function SettingsPage() {
 
   return (
     <div className="flex max-w-2xl flex-col gap-6">
+      <div>
+        <span className="text-xs font-medium uppercase tracking-wide text-ink-muted">
+          Dashboard
+        </span>
+        <h1 className="text-xl font-semibold text-ink">Settings</h1>
+      </div>
       <AccountSection user={user} />
       <SettingsSection user={user} mutateUser={mutate} />
     </div>

@@ -33,7 +33,7 @@ export function RepositoriesSection({ embedded = false }: { embedded?: boolean }
   const Wrapper = embedded ? "div" : "section";
 
   return (
-    <Wrapper className={embedded ? "" : "rounded-lg border border-line bg-white p-6 shadow-sm"}>
+    <Wrapper className={embedded ? "" : "rounded-lg border border-line bg-surface p-6 shadow-sm"}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         {!embedded && (
           <div>
@@ -61,7 +61,7 @@ export function RepositoriesSection({ embedded = false }: { embedded?: boolean }
           setSearch(e.target.value);
           setPage(1);
         }}
-        className="mt-4 w-full rounded-md border border-line bg-white px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none"
+        className="mt-4 w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none"
       />
 
       {error && <p className="mt-4 text-sm text-rust">Gagal memuat repositories.</p>}

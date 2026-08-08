@@ -5,7 +5,7 @@ import { AuthMeResponse } from "@/lib/types";
 
 export function AccountSection({ user }: { user: AuthMeResponse }) {
   return (
-    <section className="rounded-lg border border-line bg-white p-6 shadow-sm">
+    <section className="rounded-xl border border-line bg-surface p-6 shadow-sm">
       <span className="text-xs font-medium uppercase tracking-wide text-ink-muted">Account</span>
       <h2 className="text-lg font-semibold text-ink">Your account</h2>
 

@@ -14,11 +14,11 @@ export function AddRepositoryModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-ink/40 px-4 py-10 sm:py-16"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-4 py-10 sm:py-16"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg rounded-lg border border-line bg-white p-6 shadow-lg"
+        className="w-full max-w-lg rounded-xl border border-line bg-surface p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between gap-3">

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { loginWithGithub } from "@/lib/api";
+import { LogoMark } from "@/components/LogoMark";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const nav = [
   { href: "#login", label: "1. Login dengan GitHub" },
@@ -15,16 +17,23 @@ const nav = [
 export default function DocsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
-      <header className="flex items-center justify-between border-b border-line bg-white px-6 py-3.5">
-        <Link href="/" className="text-[15px] font-semibold tracking-tight text-ink">
+      <header className="sticky top-0 z-20 flex items-center justify-between border-b border-line bg-surface/80 px-6 py-3.5 backdrop-blur-md">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-ink"
+        >
+          <LogoMark size={28} />
           Codessa
         </Link>
-        <Link
-          href="/dashboard"
-          className="rounded-md border border-line px-3 py-1.5 text-sm font-medium text-ink-muted transition hover:border-ink/15 hover:bg-canvas hover:text-ink"
-        >
-          Buka dashboard
-        </Link>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <Link
+            href="/dashboard"
+            className="rounded-md border border-line px-3 py-1.5 text-sm font-medium text-ink-muted transition hover:border-ink/15 hover:bg-canvas hover:text-ink"
+          >
+            Buka dashboard
+          </Link>
+        </div>
       </header>
 
       <div className="mx-auto flex w-full max-w-5xl flex-1 gap-10 px-6 py-10 sm:px-10">
@@ -33,7 +42,7 @@ export default function DocsPage() {
             <a
               key={item.href}
               href={item.href}
-              className="rounded-md px-3 py-1.5 text-sm text-ink-muted transition hover:bg-white hover:text-ink"
+              className="rounded-md px-3 py-1.5 text-sm text-ink-muted transition hover:bg-surface hover:text-ink"
             >
               {item.label}
             </a>
@@ -160,7 +169,7 @@ export default function DocsPage() {
                   a: "Buka Overview, cari kartu repo-nya, lalu klik Disable. Repo langsung berhenti direview tanpa perlu uninstall GitHub App.",
                 },
               ].map((item) => (
-                <div key={item.q} className="rounded-lg border border-line bg-white p-4 shadow-sm">
+                <div key={item.q} className="rounded-lg border border-line bg-surface p-4 shadow-sm">
                   <p className="text-sm font-medium text-ink">{item.q}</p>
                   <p className="mt-1 text-sm text-ink-muted">{item.a}</p>
                 </div>
