@@ -7,502 +7,432 @@ import { loginWithGithub } from "@/lib/api";
 import { LogoMark } from "@/components/LogoMark";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const languages = ["Python", "JavaScript", "PHP", "Go"];
-
-const steps = [
-  {
-    n: "01",
-    title: "Login dengan GitHub",
-    description:
-      "Satu klik. Tidak ada password baru — akun kamu terhubung langsung lewat OAuth GitHub.",
-  },
-  {
-    n: "02",
-    title: "Install GitHub App",
-    description:
-      "Pilih akun atau organisasi, lalu tentukan repository mana saja yang boleh diakses Codessa.",
-  },
-  {
-    n: "03",
-    title: "Aktifkan repository",
-    description:
-      "Nyalakan review per repo. Setelah aktif, setiap PR baru langsung masuk antrean review.",
-  },
-];
-
-const features = [
-  {
-    title: "Review otomatis tiap PR",
-    description:
-      "Setiap pull request baru dan setiap commit lanjutan dianalisis otomatis — tanpa trigger manual.",
-  },
-  {
-    title: "Komentar per baris",
-    description:
-      "Bukan ringkasan umum. Codessa menempel komentar tepat di baris kode yang bermasalah.",
-  },
-  {
-    title: "Severity berjenjang",
-    description:
-      "Tiap temuan diberi tingkat: info, minor, major, atau critical — supaya kamu tahu mana yang mendesak.",
-  },
-  {
-    title: "History tersimpan",
-    description:
-      "Semua hasil review terekam rapi dan bisa dibuka lagi kapan pun lewat dashboard.",
-  },
-  {
-    title: "Bahasa output fleksibel",
-    description:
-      "Atur bahasa penulisan review sesuai tim kamu — Bahasa Indonesia, English, dan lainnya.",
-  },
-  {
-    title: "Empat bahasa pemrograman",
-    description:
-      "Paham konteks Python, JavaScript, PHP, dan Go — untuk stack backend maupun frontend.",
-  },
-];
+function Icon({ name, className }: { name: string; className?: string }) {
+  return (
+    <span className={`material-symbols-outlined ${className ?? ""}`} aria-hidden>
+      {name}
+    </span>
+  );
+}
 
 function LoginErrorBanner() {
   const searchParams = useSearchParams();
   const loginError = searchParams.get("login_error");
-
   if (!loginError) return null;
-
   return (
-    <div className="mx-auto mb-8 w-full max-w-2xl rounded-lg border border-rust/25 bg-rust-soft px-4 py-3 text-sm text-rust">
+    <div className="mx-auto mb-6 w-full max-w-2xl rounded-xl border border-error/30 bg-error-container/60 px-4 py-3 text-sm text-on-error-container">
       Login gagal: {loginError}
     </div>
   );
 }
 
-function GithubMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 16 16" className={className} fill="currentColor" aria-hidden="true">
-      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-    </svg>
-  );
-}
-
-// Faint honeycomb texture echoing the hex clusters in the Codessa logo.
-function HexField({ className }: { className?: string }) {
-  const R = 26;
-  const dx = Math.sqrt(3) * R;
-  const dy = 1.5 * R;
-  const cols = 7;
-  const rows = 6;
-  const hex = (cx: number, cy: number) =>
-    [90, 150, 210, 270, 330, 30]
-      .map((a) => {
-        const rad = (a * Math.PI) / 180;
-        return `${(cx + R * Math.cos(rad)).toFixed(1)},${(cy + R * Math.sin(rad)).toFixed(1)}`;
-      })
-      .join(" ");
-  const cells = [];
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      cells.push(hex(c * dx + (r % 2 ? dx / 2 : 0), r * dy));
-    }
-  }
-  return (
-    <svg
-      viewBox={`-${R} -${R} ${cols * dx + R} ${rows * dy + R}`}
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1}
-      aria-hidden
-    >
-      {cells.map((pts, i) => (
-        <polygon key={i} points={pts} />
-      ))}
-    </svg>
-  );
-}
-
-const severities = [
+const features = [
   {
-    name: "Info",
-    cls: "bg-accent-soft text-accent",
-    desc: "Catatan atau saran gaya penulisan — aman untuk diabaikan.",
-  },
-  {
-    name: "Minor",
-    cls: "bg-amber-soft text-amber",
-    desc: "Masalah kecil yang sebaiknya dirapikan sebelum merge.",
-  },
-  {
-    name: "Major",
-    cls: "border border-rust/25 bg-rust-soft text-rust",
-    desc: "Bug atau risiko nyata yang perlu perhatian.",
-  },
-  {
-    name: "Critical",
-    cls: "bg-rust text-white",
-    desc: "Harus dibereskan dulu — misalnya celah keamanan.",
+    span: "md:col-span-2",
+    surface: "bg-surface-container-low",
+    icon: "troubleshoot",
+    iconBg: "bg-primary-container text-primary border-primary/10",
+    title: "Automated Reviews",
+    body: "Catch bugs, security vulnerabilities, and anti-patterns before they merge. Our AI understands your entire repository context, not just the diff.",
   },
 ];
 
-function ReviewCard() {
-  return (
-    <div className="relative animate-fade-up [animation-delay:240ms]">
-      {/* ambient glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-tr from-accent/15 via-accent/5 to-transparent blur-2xl"
-      />
-      <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0d1117] shadow-2xl ring-1 ring-black/5">
-        {/* window bar */}
-        <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-          <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-          <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-          <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-          <span className="ml-3 font-mono text-xs text-slate-400">
-            auth/users.py
-          </span>
-          <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-accent/25 px-2.5 py-0.5 text-[11px] font-medium text-sky-200">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-            Codessa reviewing
-          </span>
-        </div>
-
-        {/* diff */}
-        <div className="relative overflow-hidden font-mono text-[13px] leading-relaxed">
-          {/* scan line */}
-          <div
-            aria-hidden
-            className="animate-scan pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-accent/25 to-transparent"
-          />
-          <DiffRow n={12} text="def get_user(user_id):" />
-          <DiffRow
-            n={13}
-            kind="del"
-            text={`    q = "SELECT * FROM users WHERE id = " + user_id`}
-          />
-          <DiffRow
-            n={13}
-            kind="add"
-            text={`    q = "SELECT * FROM users WHERE id = %s"`}
-          />
-          <DiffRow n={14} kind="del" text="    return db.execute(q)" />
-          <DiffRow n={14} kind="add" text="    return db.execute(q, (user_id,))" />
-        </div>
-
-        {/* inline review comment */}
-        <div className="border-t border-white/10 bg-[#0b0e14] p-4">
-          <div className="rounded-lg border border-white/10 bg-white/3 p-4">
-            <div className="flex items-center gap-2.5">
-              <LogoMark size={24} rounded="rounded-full" />
-              <span className="text-sm font-medium text-slate-200">Codessa</span>
-              <span className="inline-flex items-center rounded-md bg-rust/20 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-rust-soft">
-                Critical
-              </span>
-              <span className="ml-auto font-mono text-[11px] text-slate-500">
-                baris 13
-              </span>
-            </div>
-            <p className="mt-2.5 text-[13px] leading-relaxed text-slate-300">
-              Query dirangkai lewat konkatenasi string — terbuka untuk{" "}
-              <span className="font-medium text-slate-100">SQL injection</span>.
-              Gunakan parameterized query agar input di-escape aman.
-            </p>
-            <div className="mt-3 flex items-center gap-2 text-[11px] text-slate-500">
-              <span className="inline-flex items-center gap-1 rounded-md bg-moss/15 px-2 py-1 font-medium text-emerald-300">
-                Suggested fix diterapkan
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DiffRow({
-  n,
-  text,
-  kind,
-}: {
-  n: number;
-  text: string;
-  kind?: "add" | "del";
-}) {
-  const bg =
-    kind === "add"
-      ? "bg-[#12261e]"
-      : kind === "del"
-        ? "bg-[#2d1417]"
-        : "";
-  const marker = kind === "add" ? "+" : kind === "del" ? "-" : " ";
-  const markerColor =
-    kind === "add"
-      ? "text-emerald-400"
-      : kind === "del"
-        ? "text-rose-400"
-        : "text-slate-600";
-  const textColor =
-    kind === "add"
-      ? "text-emerald-100"
-      : kind === "del"
-        ? "text-rose-200"
-        : "text-slate-300";
-
-  return (
-    <div className={`flex ${bg}`}>
-      <span className="w-10 shrink-0 select-none border-r border-white/5 px-2 py-0.5 text-right text-slate-600">
-        {n}
-      </span>
-      <span className={`w-5 shrink-0 select-none py-0.5 text-center ${markerColor}`}>
-        {marker}
-      </span>
-      <span className={`overflow-x-auto whitespace-pre py-0.5 pr-4 ${textColor}`}>
-        {text}
-      </span>
-    </div>
-  );
-}
-
 export default function LandingPage() {
   return (
-    <div className="flex flex-1 flex-col bg-canvas">
-      <header className="sticky top-0 z-20 border-b border-line bg-surface/80 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-3.5">
-          <span className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-ink">
-            <LogoMark size={28} />
-            Codessa
-          </span>
-          <div className="flex items-center gap-3">
+    <div className="min-h-screen bg-background font-sans text-on-surface">
+      {/* HEADER */}
+      <header className="fixed top-0 z-50 w-full bg-surface/80 shadow-[0_1px_8px_rgba(0,0,0,0.04)] backdrop-blur-xl">
+        <div className="flex h-16 w-full items-center justify-between px-6 md:px-10">
+          <Link href="/" className="flex items-center gap-2">
+            <LogoMark size={32} />
+            <span className="font-display text-2xl font-semibold tracking-tight text-on-surface">Codessa</span>
+          </Link>
+          <nav className="hidden items-center gap-8 md:flex">
+            <a href="#features" className="font-bold text-primary transition-colors">
+              Features
+            </a>
+            <a
+              href="#demo"
+              className="text-on-surface-variant transition-colors hover:text-on-surface"
+            >
+              Demo
+            </a>
             <Link
               href="/docs"
-              className="text-sm font-medium text-ink-muted transition hover:text-ink"
+              className="text-on-surface-variant transition-colors hover:text-on-surface"
             >
-              Documentation
+              Docs
             </Link>
+          </nav>
+          <div className="flex items-center gap-3">
             <ThemeToggle />
             <button
               onClick={loginWithGithub}
-              className="inline-flex items-center gap-2 rounded-md bg-ink px-3.5 py-1.5 text-sm font-medium text-canvas transition hover:bg-ink/90"
+              className="rounded-lg bg-tertiary px-4 py-2 text-xs font-semibold uppercase tracking-wider text-on-tertiary transition hover:opacity-90"
             >
-              <GithubMark className="h-4 w-4" />
-              Login
+              Sign up
             </button>
           </div>
         </div>
       </header>
 
-      <main className="flex flex-1 flex-col">
-        {/* HERO */}
-        <section className="relative overflow-hidden border-b border-line">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(60%_50%_at_20%_0%,var(--accent-soft),transparent)]"
-          />
-          {/* grid texture, faded toward the content */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-0"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)",
-              backgroundSize: "38px 38px",
-              WebkitMaskImage:
-                "radial-gradient(95% 85% at 50% 0%, #000 45%, transparent 90%)",
-              maskImage:
-                "radial-gradient(95% 85% at 50% 0%, #000 45%, transparent 90%)",
-            }}
-          />
-          <HexField className="pointer-events-none absolute -right-16 -top-16 z-0 h-[440px] w-[440px] text-accent/[0.10]" />
-          <HexField className="pointer-events-none absolute -bottom-24 -left-20 z-0 h-[320px] w-[320px] text-accent/[0.07]" />
-          <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 py-16 lg:grid-cols-[1.05fr_1fr] lg:py-24">
-            <div>
+      <main className="w-full bg-background pt-16">
+        <div className="relative flex w-full flex-col">
+          {/* Ambient background */}
+          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute left-1/4 top-0 h-[500px] w-[500px] animate-pulse rounded-full bg-secondary-container/30 mix-blend-multiply blur-[100px]" />
+            <div className="absolute bottom-1/4 right-0 h-[600px] w-[600px] rounded-full bg-primary-container/10 opacity-50 mix-blend-multiply blur-[120px]" />
+            <div
+              className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent)]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)",
+                backgroundSize: "40px 40px",
+                opacity: 0.5,
+              }}
+            />
+          </div>
+
+          {/* HERO */}
+          <section className="relative flex min-h-[820px] flex-col items-center justify-center overflow-hidden px-6 py-32 md:px-10">
+            {/* Floating code card */}
+            <div className="absolute right-1/4 top-32 hidden animate-bounce lg:block">
+              <div className="rotate-3 rounded-xl border border-outline-variant/30 bg-surface p-4 shadow-xl backdrop-blur-md">
+                <div className="mb-2 flex items-center gap-2 border-b border-outline-variant/20 pb-2">
+                  <span className="h-3 w-3 rounded-full bg-error" />
+                  <span className="h-3 w-3 rounded-full bg-secondary" />
+                  <span className="h-3 w-3 rounded-full bg-tertiary" />
+                  <span className="ml-2 font-mono text-sm text-on-surface-variant">analyze_pr.py</span>
+                </div>
+                <pre className="font-mono text-sm font-medium text-primary">
+                  <code>
+                    <span className="text-secondary">def</span>{" "}
+                    <span className="text-tertiary">review</span>(pr):{"\n"}
+                    {"  "}
+                    <span className="text-secondary">return</span> ai.analyze(pr)
+                  </code>
+                </pre>
+              </div>
+            </div>
+
+            <div className="z-10 mx-auto mt-12 max-w-4xl space-y-8 text-center">
               <Suspense fallback={null}>
                 <LoginErrorBanner />
               </Suspense>
 
-              <span className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent-soft px-3 py-1 text-xs font-medium text-accent">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                AI Pull Request Review
-              </span>
-
-              <h1 className="animate-fade-up mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-ink sm:text-5xl [animation-delay:60ms]">
-                Reviewer kode yang{" "}
-                <span className="text-accent">tak pernah tidur</span>.
-              </h1>
-
-              <p className="animate-fade-up mt-5 max-w-xl text-lg leading-relaxed text-ink-muted [animation-delay:120ms]">
-                Codessa membaca setiap pull request GitHub kamu dan menempelkan
-                komentar review per baris — lengkap dengan tingkat severity. Pasang
-                sekali, lalu setiap PR baru langsung mendapat review.
-              </p>
-
-              <div className="animate-fade-up mt-8 flex flex-wrap items-center gap-3 [animation-delay:180ms]">
-                <button
-                  onClick={loginWithGithub}
-                  className="inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-accent/90"
-                >
-                  <GithubMark className="h-5 w-5" />
-                  Mulai dengan GitHub
-                </button>
-                <Link
-                  href="/docs"
-                  className="inline-flex items-center gap-2 rounded-md border border-line bg-surface px-6 py-3 text-base font-semibold text-ink shadow-sm transition hover:border-ink/15 hover:bg-canvas"
-                >
-                  Baca dokumentasi
-                </Link>
+              <div className="mb-4 inline-flex cursor-pointer items-center gap-2 rounded-full border border-outline-variant/20 bg-surface-container px-4 py-2 shadow-sm transition-transform hover:scale-105">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-secondary" />
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-on-surface">
+                  Codessa V2.0 Now Available
+                </span>
+                <Icon name="arrow_forward" className="text-[14px] text-on-surface-variant" />
               </div>
 
-              <div className="animate-fade-up mt-8 flex flex-wrap items-center gap-2 [animation-delay:240ms]">
-                <span className="text-xs text-ink-muted">Mengerti:</span>
-                {languages.map((lang) => (
-                  <span
-                    key={lang}
-                    className="rounded-md border border-line bg-surface px-2.5 py-1 font-mono text-xs text-ink"
-                  >
-                    {lang}
+              <h1 className="font-display text-[56px] font-bold leading-[1.1] tracking-tighter text-on-surface drop-shadow-sm md:text-[80px]">
+                AI-Powered PR Reviews
+                <br />
+                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  for GitHub
+                </span>
+              </h1>
+
+              <p className="mx-auto max-w-2xl text-xl leading-relaxed text-on-surface-variant md:text-2xl">
+                Automate your code reviews with intelligent insights and seamless GitHub
+                integration. Ship faster, with absolute confidence.
+              </p>
+
+              <div className="flex flex-col items-center justify-center gap-6 pt-8 sm:flex-row">
+                <button
+                  onClick={loginWithGithub}
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider text-on-primary shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl sm:w-auto"
+                >
+                  Start for free
+                  <Icon name="rocket_launch" className="text-[18px]" />
+                </button>
+                <a
+                  href="#demo"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-outline-variant bg-transparent px-8 py-4 text-xs font-semibold uppercase tracking-wider text-on-surface transition-colors hover:bg-surface-container sm:w-auto"
+                >
+                  View demo
+                  <Icon name="play_circle" className="text-[18px]" />
+                </a>
+              </div>
+
+              <div className="mt-8 flex flex-col items-center border-t border-outline-variant/20 pt-16 opacity-70">
+                <span className="mb-4 text-xs font-semibold uppercase tracking-widest text-on-surface-variant">
+                  Supports the languages your team ships
+                </span>
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  {["Python", "JavaScript", "PHP", "Go"].map((lang) => (
+                    <span
+                      key={lang}
+                      className="rounded-lg border border-outline-variant/40 bg-surface-container-lowest px-4 py-2 font-mono text-sm text-on-surface-variant"
+                    >
+                      {lang}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* PR DEMO */}
+          <section id="demo" className="relative z-20 mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
+            <div className="group flex flex-col overflow-hidden rounded-2xl border border-outline-variant/20 bg-surface shadow-xl transition-shadow duration-500 hover:shadow-[0_20px_50px_rgba(124,58,237,0.15)] md:flex-row">
+              {/* File tree */}
+              <div className="hidden w-64 flex-col border-r border-outline-variant/20 bg-surface-container-low md:flex">
+                <div className="flex items-center justify-between border-b border-outline-variant/20 bg-surface-container p-4">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-on-surface">
+                    Files changed
+                  </span>
+                  <span className="rounded bg-surface-variant px-2 py-0.5 text-xs text-on-surface-variant">
+                    3
+                  </span>
+                </div>
+                <div className="flex-1 space-y-1 overflow-y-auto p-2">
+                  <div className="flex cursor-pointer items-center gap-2 rounded bg-primary/10 p-2 text-primary transition-colors hover:bg-primary/20">
+                    <Icon name="description" className="text-[16px]" />
+                    <span className="truncate font-mono text-sm">api/routes.ts</span>
+                    <span className="ml-auto text-xs text-secondary">+12 -4</span>
+                  </div>
+                  <div className="flex cursor-pointer items-center gap-2 rounded p-2 text-on-surface-variant transition-colors hover:bg-surface-variant/50">
+                    <Icon name="description" className="text-[16px]" />
+                    <span className="truncate font-mono text-sm">utils/auth.ts</span>
+                  </div>
+                  <div className="flex cursor-pointer items-center gap-2 rounded p-2 text-on-surface-variant transition-colors hover:bg-surface-variant/50">
+                    <Icon name="description" className="text-[16px]" />
+                    <span className="truncate font-mono text-sm">package.json</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Diff */}
+              <div className="flex flex-1 flex-col bg-surface-bright">
+                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-outline-variant/20 bg-surface-container-lowest p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-secondary/30 bg-secondary-container/50 text-secondary">
+                      <Icon name="merge" className="text-[18px]" />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-lg font-semibold text-on-surface">
+                        feat: implement robust rate limiting
+                      </h3>
+                      <div className="mt-1 flex items-center gap-2 text-xs text-on-surface-variant">
+                        <span className="font-medium text-primary">#142</span> opened 2 hours ago
+                        by <span className="font-medium text-on-surface">@romzdev</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 rounded-full border border-secondary/30 bg-secondary/10 px-3 py-1.5">
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-secondary" />
+                    <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
+                      AI Analyzed
+                    </span>
+                  </div>
+                </div>
+
+                <div className="relative overflow-x-auto p-6 font-mono text-sm leading-relaxed text-on-surface">
+                  {/* AI popover */}
+                  <div className="absolute right-8 top-1/4 z-10 w-80 translate-x-4 rounded-xl border border-outline-variant/30 bg-surface p-4 opacity-0 shadow-lg transition-all delay-100 duration-500 group-hover:translate-x-0 group-hover:opacity-100">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary-container text-secondary">
+                        <Icon name="smart_toy" className="text-[14px]" />
+                      </div>
+                      <div>
+                        <p className="mb-2 text-base text-on-surface">
+                          <strong>Security Insight:</strong> The implementation uses a predictable
+                          hashing algorithm. Consider upgrading to Argon2 for production credentials.
+                        </p>
+                        <div className="flex gap-2">
+                          <button className="rounded bg-secondary px-3 py-1 text-xs text-on-secondary shadow transition-colors hover:opacity-90">
+                            Apply Fix
+                          </button>
+                          <button className="rounded border border-outline-variant px-3 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-variant">
+                            Ignore
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <table className="w-full border-collapse text-left">
+                    <tbody>
+                      <tr>
+                        <td className="w-8 select-none pr-4 text-right text-outline-variant">42</td>
+                        <td className="w-8 select-none pr-4 text-right text-outline-variant">42</td>
+                        <td>
+                          <span className="text-tertiary">const</span> req =
+                          context.switchToHttp().getRequest();
+                        </td>
+                      </tr>
+                      <tr className="bg-error-container/50">
+                        <td className="w-8 select-none pr-4 text-right text-error/70">43</td>
+                        <td className="w-8 select-none pr-4 text-right text-outline-variant" />
+                        <td className="text-error">
+                          - <span className="text-on-surface">const ip = req.ip;</span>
+                        </td>
+                      </tr>
+                      <tr className="relative bg-primary/10">
+                        <td className="w-8 select-none pr-4 text-right text-outline-variant" />
+                        <td className="w-8 select-none pr-4 text-right text-primary/70">43</td>
+                        <td className="text-primary">
+                          +{" "}
+                          <span className="text-on-surface">
+                            const ip = req.headers[&apos;x-forwarded-for&apos;] || req.ip;
+                          </span>
+                          <div className="absolute inset-y-0 right-0 w-1 animate-pulse bg-secondary" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="w-8 select-none pr-4 text-right text-outline-variant">44</td>
+                        <td className="w-8 select-none pr-4 text-right text-outline-variant">44</td>
+                        <td>
+                          <span className="text-tertiary">return</span>{" "}
+                          <span className="text-secondary">this</span>.rateLimiter.check(ip);
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* FEATURES BENTO */}
+          <section id="features" className="relative mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
+            <div className="mb-16 text-center">
+              <h2 className="mb-4 font-display text-4xl font-semibold text-on-surface">Why Codessa?</h2>
+              <p className="mx-auto max-w-xl text-lg text-on-surface-variant">
+                Engineered to integrate seamlessly into your workflow, providing deep context
+                without the noise.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {/* Feature 1 — large */}
+              {features.map((f) => (
+                <div
+                  key={f.title}
+                  className={`group relative overflow-hidden rounded-2xl border border-outline-variant/10 ${f.surface} ${f.span} p-8 shadow-sm`}
+                >
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="relative z-10 flex h-full flex-col justify-between">
+                    <div
+                      className={`mb-6 flex h-12 w-12 items-center justify-center rounded-xl border shadow-sm ${f.iconBg}`}
+                    >
+                      <Icon name={f.icon} className="text-[24px]" />
+                    </div>
+                    <div>
+                      <h3 className="mb-3 font-display text-2xl font-semibold text-on-surface">{f.title}</h3>
+                      <p className="w-3/4 text-on-surface-variant">{f.body}</p>
+                    </div>
+                    <div className="mt-8 flex gap-2">
+                      <div className="h-2 flex-1 rounded-full bg-error opacity-70" />
+                      <div className="h-2 flex-[2] rounded-full bg-tertiary opacity-80" />
+                      <div className="h-2 flex-[3] rounded-full bg-secondary" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {/* Feature 2 — tall */}
+              <div className="group relative overflow-hidden rounded-2xl border border-outline-variant/10 bg-surface-container p-8 shadow-sm md:col-span-1 md:row-span-2">
+                <div className="pointer-events-none absolute -right-12 -top-12 select-none text-[150px] font-semibold text-surface-variant opacity-50 transition-transform duration-700 group-hover:scale-110">
+                  {"{ }"}
+                </div>
+                <div className="relative z-10 flex h-full flex-col">
+                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-secondary/10 bg-secondary-container text-secondary shadow-sm">
+                    <Icon name="rule_settings" className="text-[24px]" />
+                  </div>
+                  <h3 className="mb-3 font-display text-2xl font-semibold text-on-surface">Custom Rules</h3>
+                  <p className="flex-1 text-on-surface-variant">
+                    Enforce your specific team conventions. Write custom prompt directives tailored
+                    to your architecture.
+                  </p>
+                  <div className="mt-6 space-y-3">
+                    {["Strict Typing", "No console.log"].map((rule) => (
+                      <div
+                        key={rule}
+                        className="flex items-center justify-between rounded-lg border border-outline-variant/30 bg-surface p-3 shadow-sm"
+                      >
+                        <span className="truncate font-mono text-xs text-on-surface-variant">
+                          {rule}
+                        </span>
+                        <div className="relative h-4 w-8 rounded-full bg-primary">
+                          <div className="absolute right-1 top-1 h-2 w-2 rounded-full bg-on-primary" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="group relative overflow-hidden rounded-2xl border border-outline-variant/10 bg-surface-container-low p-8 shadow-sm md:col-span-1">
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-tertiary/10 bg-tertiary-container text-tertiary shadow-sm">
+                  <Icon name="insights" className="text-[24px]" />
+                </div>
+                <h3 className="mb-3 font-display text-2xl font-semibold text-on-surface">AI Insight</h3>
+                <p className="text-on-surface-variant">
+                  Beyond simple linting, get architectural suggestions and performance optimization
+                  strategies directly in the PR comments.
+                </p>
+              </div>
+
+              {/* Feature 4 */}
+              <div className="group relative overflow-hidden rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-8 shadow-sm transition-colors duration-300 hover:border-secondary/50 md:col-span-1">
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-outline-variant/30 bg-surface-variant text-on-surface shadow-sm">
+                  <Icon name="bolt" className="text-[24px]" />
+                </div>
+                <h3 className="mb-3 font-display text-2xl font-semibold text-on-surface">Fast Integration</h3>
+                <p className="text-on-surface-variant">
+                  Install the GitHub App in two clicks. No complex CI/CD pipeline modifications
+                  required to get started.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* VISUAL BREAKER */}
+          <section className="relative w-full overflow-hidden py-12">
+            <div className="absolute inset-0 -z-10 origin-top-left -skew-y-3 transform bg-secondary-container/20" />
+            <div className="pointer-events-none flex select-none overflow-hidden py-4 opacity-50">
+              <div className="flex animate-[slide_20s_linear_infinite] gap-8 whitespace-nowrap font-mono text-5xl text-on-surface-variant/40">
+                {[0, 1].map((k) => (
+                  <span key={k} className="flex items-center gap-8">
+                    <span>// ANALYZING_DIFF</span>
+                    <span className="text-secondary">•</span>
+                    <span>GENERATING_INSIGHTS</span>
+                    <span className="text-tertiary">•</span>
+                    <span>CHECKING_VULNERABILITIES</span>
+                    <span className="text-primary">•</span>
+                    <span>OPTIMIZING_PERFORMANCE</span>
+                    <span className="text-secondary">•</span>
                   </span>
                 ))}
               </div>
             </div>
-
-            <ReviewCard />
-          </div>
-        </section>
-
-        {/* HOW IT WORKS */}
-        <section className="border-b border-line bg-surface">
-          <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-20">
-            <div className="max-w-2xl">
-              <span className="text-xs font-medium uppercase tracking-wide text-accent">
-                Cara pakai
-              </span>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-                Tiga langkah, lalu lupakan
-              </h2>
-              <p className="mt-3 text-ink-muted">
-                Setup sekali di awal. Setelah itu Codessa bekerja di latar belakang
-                setiap kali ada PR.
-              </p>
-            </div>
-
-            <ol className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
-              {steps.map((step) => (
-                <li key={step.n} className="bg-surface p-6">
-                  <span className="font-mono text-sm font-semibold text-accent">
-                    {step.n}
-                  </span>
-                  <h3 className="mt-3 font-semibold text-ink">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                    {step.description}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        {/* SEVERITY */}
-        <section className="border-b border-line">
-          <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-20">
-            <div className="max-w-2xl">
-              <span className="text-xs font-medium uppercase tracking-wide text-accent">
-                Output
-              </span>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-                Setiap temuan diberi bobot
-              </h2>
-              <p className="mt-3 text-ink-muted">
-                Bukan sekadar daftar komentar — tiap catatan ditandai tingkat
-                keparahannya, jadi kamu tahu mana yang tinggal dibaca dan mana yang
-                wajib dibereskan.
-              </p>
-            </div>
-
-            <div className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-              {severities.map((s) => (
-                <div key={s.name} className="bg-surface p-6">
-                  <span
-                    className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold capitalize ${s.cls}`}
-                  >
-                    {s.name}
-                  </span>
-                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* FEATURES */}
-        <section className="border-b border-line bg-surface">
-          <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:py-20">
-            <div className="max-w-2xl">
-              <span className="text-xs font-medium uppercase tracking-wide text-accent">
-                Kemampuan
-              </span>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-                Review yang benar-benar menempel di kode
-              </h2>
-            </div>
-
-            <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature) => (
-                <div
-                  key={feature.title}
-                  className="rounded-xl border border-line bg-surface p-6 shadow-sm transition hover:border-accent/30 hover:shadow-md"
-                >
-                  <h3 className="font-semibold text-ink">{feature.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="bg-surface">
-          <div className="mx-auto w-full max-w-6xl px-6 py-20">
-            <div className="relative overflow-hidden rounded-2xl bg-[#0d1117] px-8 py-14 text-center">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_80%_at_50%_0%,rgba(29,99,173,0.45),transparent)]"
-              />
-              <HexField className="pointer-events-none absolute -bottom-20 -left-16 h-[340px] w-[340px] text-white/[0.06]" />
-              <div className="relative mb-5 flex justify-center">
-                <LogoMark size={56} rounded="rounded-xl" />
-              </div>
-              <h2 className="relative text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                Biarkan PR berikutnya direview otomatis
-              </h2>
-              <p className="relative mx-auto mt-3 max-w-md text-slate-300">
-                Hubungkan GitHub kamu dan aktifkan repo pertama dalam hitungan menit.
-              </p>
-              <button
-                onClick={loginWithGithub}
-                className="relative mt-7 inline-flex items-center gap-2 rounded-md bg-white px-6 py-3 text-base font-semibold text-[#0d1117] transition hover:bg-slate-100"
-              >
-                <GithubMark className="h-5 w-5" />
-                Login with GitHub
-              </button>
-            </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
 
-      <footer className="border-t border-line bg-surface">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 px-6 py-6 text-sm text-ink-muted sm:flex-row">
-          <span className="flex items-center gap-2">
-            <LogoMark size={22} rounded="rounded" />
-            Codessa — AI Pull Request Review
-          </span>
-          <div className="flex items-center gap-4">
-            <Link href="/docs" className="transition hover:text-ink">
-              Documentation
+      {/* FOOTER */}
+      <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low py-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 text-xs font-semibold uppercase tracking-wider text-on-surface-variant md:flex-row md:px-10">
+          <span>© 2026 Codessa AI. Built for precision.</span>
+          <div className="flex gap-8">
+            <Link href="/docs" className="transition-colors hover:text-primary">
+              Docs
             </Link>
-            <Link href="/dashboard" className="transition hover:text-ink">
+            <Link href="/dashboard" className="transition-colors hover:text-primary">
               Dashboard
             </Link>
+            <a href="#features" className="transition-colors hover:text-primary">
+              Features
+            </a>
           </div>
         </div>
       </footer>
