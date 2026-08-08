@@ -72,14 +72,17 @@ export function InstalledOverview() {
           </p>
         </div>
         <div className="flex gap-4">
-          <button className="flex items-center gap-2 rounded-lg bg-surface-container-high px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface shadow-sm transition-colors hover:bg-surface-container-highest">
+          {/* <button className="flex items-center gap-2 rounded-lg bg-surface-container-high px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface shadow-sm transition-colors hover:bg-surface-container-highest">
             <Icon name="refresh" className="text-[18px]" />
             Sync Now
-          </button>
-          <button className="flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-secondary shadow-md transition-colors hover:opacity-90">
+          </button> */}
+          <Link
+            href="/dashboard/integrations"
+            className="flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-secondary shadow-md transition-colors hover:opacity-90"
+          >
             <Icon name="add" className="text-[18px]" />
             New Repo
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -245,10 +248,13 @@ export function InstalledOverview() {
                 </div>
               ))}
             <div className="bg-surface-container-highest/50 p-1">
-              <button className="flex w-full items-center justify-center gap-2 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant transition-colors hover:text-on-surface">
+              <Link
+                href="/dashboard/integrations"
+                className="flex w-full items-center justify-center gap-2 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant transition-colors hover:text-on-surface"
+              >
                 <Icon name="settings" className="text-[16px]" />
                 Manage Connections
-              </button>
+              </Link>
             </div>
           </div>
 
