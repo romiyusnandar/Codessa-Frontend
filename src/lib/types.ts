@@ -49,12 +49,23 @@ export interface ReviewComment {
   comment: string;
 }
 
+export interface ReviewStats {
+  totalPullRequests: number;
+  totalComments: number;
+  totalReviewTimeMs: number;
+}
+
 export interface Review {
   _id: string;
   repositoryId: string;
   repositoryFullName: string;
+  repositoryName: string;
   pullNumber: number;
   commitSha: string;
+  shortSha: string;
+  commitMessage: string;
+  additions: number;
+  deletions: number;
   status: ReviewStatus;
   summary: string;
   comments: ReviewComment[];
@@ -63,4 +74,12 @@ export interface Review {
   completionTokens?: number;
   createdAt: string;
   finishedAt?: string;
+}
+
+export interface ReviewsResponse {
+  data: Review[];
+  page: number;
+  perPage: number;
+  total: number;
+  totalPages: number;
 }

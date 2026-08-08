@@ -1,6 +1,6 @@
 import useSWR, { mutate as globalMutate } from "swr";
 import { apiFetch } from "./api";
-import { AuthMeResponse, Language, RepositoriesResponse, Review } from "./types";
+import { AuthMeResponse, Language, RepositoriesResponse, ReviewsResponse, ReviewStats } from "./types";
 
 const fetcher = <T,>(path: string) => apiFetch<T>(path);
 
@@ -37,10 +37,22 @@ export function useRepositories(page: number, perPage: number, search: string, e
   return { repositories: data, error, isLoading, mutate };
 }
 
-export function useReviews(repo?: string) {
-  const params = repo ? `?repo=${encodeURIComponent(repo)}` : "";
-  const { data, error, isLoading, mutate } = useSWR<Review[]>(`/reviews${params}`, fetcher);
-  return { reviews: data, error, isLoading, mutate };
+export function useReviews(repo?: string, perPage?: number) {
+  const params = new URLSearchParams();
+  if (repo) params.set("repo", repo);
+  if (perPage) params.set("perPage", String(perPage));
+  const qs = params.toString();
+
+  const { data, error, isLoading, mutate } = useSWR<ReviewsResponse>(
+    `/reviews${qs ? `?${qs}` : ""}`,
+    fetcher,
+  );
+  return { reviews: data?.data, total: data?.total, error, isLoading, mutate };
+}
+
+export function useReviewStats() {
+  const { data, error, isLoading } = useSWR<ReviewStats>("/reviews/stats", fetcher);
+  return { stats: data, error, isLoading };
 }
 
 export function useLanguages() {

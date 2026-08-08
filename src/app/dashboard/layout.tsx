@@ -4,14 +4,15 @@ import { Suspense, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthMe } from "@/lib/hooks";
 import { ApiError } from "@/lib/api";
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardStatusStrip } from "@/components/DashboardStatusStrip";
-import { Sidebar } from "@/components/Sidebar";
+import { useMobileDrawer } from "@/components/MobileDrawer";
+import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
+import { DashboardTopbar } from "@/components/dashboard/DashboardTopbar";
 import { InstallToast, TokenRevokedBanner } from "@/components/DashboardBanners";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user, error, isLoading } = useAuthMe();
+  const drawer = useMobileDrawer();
 
   useEffect(() => {
     if (error instanceof ApiError && error.status === 401) {
@@ -21,8 +22,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (isLoading) {
     return (
-      <div className="flex flex-1 items-center justify-center bg-canvas">
-        <p className="text-sm text-ink-muted">Loading...</p>
+      <div className="flex flex-1 items-center justify-center bg-background">
+        <p className="text-sm text-on-surface-variant">Loading...</p>
       </div>
     );
   }
@@ -32,23 +33,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex flex-1 flex-col bg-canvas">
-      <DashboardHeader user={user} />
-      <DashboardStatusStrip />
+    <div className="min-h-screen bg-background font-sans text-on-surface">
+      <DashboardSidebar drawer={drawer} />
+      <DashboardTopbar user={user} drawer={drawer} />
 
-      <div className="flex flex-1 flex-col md:flex-row">
-        <Sidebar />
+      <main className="relative min-h-screen overflow-x-hidden pt-16 md:pl-72">
+        <Suspense fallback={null}>
+          <InstallToast />
+        </Suspense>
+        <TokenRevokedBanner tokenRevoked={user.tokenRevoked} />
 
-        <main className="w-full flex-1 px-8 py-10 sm:px-10 lg:px-12">
-          <Suspense fallback={null}>
-            <InstallToast />
-          </Suspense>
-
-          <TokenRevokedBanner tokenRevoked={user.tokenRevoked} />
-
-          {children}
-        </main>
-      </div>
+        {children}
+      </main>
     </div>
   );
 }
