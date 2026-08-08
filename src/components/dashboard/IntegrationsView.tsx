@@ -4,28 +4,22 @@ import { useState } from "react";
 import { installGithubApp, setRepositoryEnabled } from "@/lib/api";
 import { revalidateRepositories, useRepositories } from "@/lib/hooks";
 import { Icon } from "@/components/Icon";
+import { ConnectRepositoryModal } from "@/components/dashboard/ConnectRepositoryModal";
 
 const PER_PAGE = 10;
 
-type Filter = "all" | "active" | "paused";
-
-const filters: { key: Filter; label: string }[] = [
-  { key: "all", label: "All" },
-  { key: "active", label: "Active" },
-  { key: "paused", label: "Paused" },
-];
-
 export function IntegrationsView() {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<Filter>("all");
   const [page, setPage] = useState(1);
   const [togglingRepo, setTogglingRepo] = useState<string | null>(null);
+  const [showConnectModal, setShowConnectModal] = useState(false);
 
-  const enabledParam = filter === "active" ? true : filter === "paused" ? false : undefined;
-  const { repositories, isLoading, error } = useRepositories(page, PER_PAGE, search, enabledParam);
+  // Only enabled repos show on this page — browsing/enabling the rest
+  // happens in the "Connect Repository" modal.
+  const { repositories, isLoading, error } = useRepositories(page, PER_PAGE, search, true);
 
-  // Independent of the filters above, so "Connect Repository" only points to
-  // the install flow when the GitHub App genuinely isn't installed yet.
+  // Independent of the list above, so the button knows whether to kick off
+  // the GitHub OAuth install flow or just open the repo picker.
   const { repositories: installCheck, isLoading: isCheckingInstall } = useRepositories(1, 1, "");
   const hasInstalled = (installCheck?.total ?? 0) > 0;
 
@@ -40,9 +34,12 @@ export function IntegrationsView() {
     }
   }
 
-  function handleFilterChange(next: Filter) {
-    setFilter(next);
-    setPage(1);
+  function handleConnectClick() {
+    if (hasInstalled) {
+      setShowConnectModal(true);
+    } else {
+      installGithubApp();
+    }
   }
 
   return (
@@ -65,12 +62,13 @@ export function IntegrationsView() {
               Manage Connections
             </h1>
             <p className="max-w-2xl text-sm text-on-surface-variant">
-              Turn AI review on or off per repository. Changes apply to the next pull request.
+              Repositories with AI review turned on. Connect more from your GitHub account below.
             </p>
           </div>
           <button
-            onClick={installGithubApp}
-            className="group flex shrink-0 items-center justify-center gap-2 rounded-lg bg-secondary-container px-6 py-3 text-[11px] font-semibold uppercase tracking-widest text-on-secondary-container shadow-lg shadow-secondary-container/20 transition-all duration-300 hover:bg-secondary-fixed hover:text-on-secondary-fixed"
+            onClick={handleConnectClick}
+            disabled={isCheckingInstall}
+            className="group flex shrink-0 items-center justify-center gap-2 rounded-lg bg-secondary-container px-6 py-3 text-[11px] font-semibold uppercase tracking-widest text-on-secondary-container shadow-lg shadow-secondary-container/20 transition-all duration-300 hover:bg-secondary-fixed hover:text-on-secondary-fixed disabled:opacity-50"
           >
             <Icon
               name="add"
@@ -80,45 +78,22 @@ export function IntegrationsView() {
           </button>
         </div>
 
-        {/* Search + filters */}
-        <div className="flex flex-col items-center justify-between gap-4 rounded-xl border border-outline-variant/30 bg-surface-container/50 p-4 shadow-md backdrop-blur-md md:flex-row md:p-6">
-          <div className="relative w-full md:w-96">
-            <Icon
-              name="search"
-              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant"
-            />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
-              placeholder="Search repositories..."
-              className="w-full rounded-lg bg-surface-container-highest py-3 pl-12 pr-4 text-sm text-on-surface shadow-inner placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-secondary"
-            />
-          </div>
-          <div className="flex w-full items-center gap-2 overflow-x-auto md:w-auto">
-            {filters.map((f) => {
-              const active = filter === f.key;
-              return (
-                <button
-                  key={f.key}
-                  onClick={() => handleFilterChange(f.key)}
-                  className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-wide transition-colors ${
-                    active
-                      ? "bg-secondary/10 text-secondary shadow-sm"
-                      : "border border-outline-variant/50 text-on-surface-variant hover:bg-surface-variant"
-                  }`}
-                >
-                  {active && f.key === "active" && (
-                    <span className="h-2 w-2 animate-pulse rounded-full bg-secondary" />
-                  )}
-                  {f.label}
-                </button>
-              );
-            })}
-          </div>
+        {/* Search */}
+        <div className="relative w-full md:w-96">
+          <Icon
+            name="search"
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant"
+          />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Search repositories..."
+            className="w-full rounded-lg border border-outline-variant/30 bg-surface-container-highest py-3 pl-12 pr-4 text-sm text-on-surface shadow-inner placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-secondary"
+          />
         </div>
 
         {/* Repo list */}
@@ -130,7 +105,9 @@ export function IntegrationsView() {
             <p className="text-sm text-on-surface-variant">
               {!isCheckingInstall && !hasInstalled
                 ? "Belum ada repository. Install GitHub App untuk menambahkan repository."
-                : "Tidak ada repository yang cocok."}
+                : search
+                  ? "Tidak ada repository yang cocok dengan pencarian."
+                  : "Belum ada repository yang diaktifkan. Klik Connect Repository untuk menambahkan."}
             </p>
           </div>
         )}
@@ -144,11 +121,7 @@ export function IntegrationsView() {
                   key={repo.fullName}
                   className="group relative flex flex-col items-start justify-between gap-6 overflow-hidden rounded-xl border border-transparent bg-surface-container p-5 shadow-sm transition-colors duration-300 hover:border-outline-variant/20 hover:bg-surface-container-high md:flex-row md:items-center md:p-6"
                 >
-                  <div
-                    className={`absolute inset-y-0 left-0 w-1 bg-secondary transition-opacity duration-300 ${
-                      repo.enabled ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                    }`}
-                  />
+                  <div className="absolute inset-y-0 left-0 w-1 bg-secondary opacity-100" />
 
                   <div className="flex w-full flex-grow items-start gap-4 md:w-auto">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-surface-container-highest shadow-inner transition-shadow group-hover:shadow-md">
@@ -194,7 +167,7 @@ export function IntegrationsView() {
                     </div>
                     <button
                       onClick={() => toggleRepo(repo.owner, repo.name, false)}
-                      disabled={!repo.enabled || togglingRepo === key}
+                      disabled={togglingRepo === key}
                       title="Disconnect Repository"
                       className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-container-highest text-on-surface-variant shadow-sm transition-colors hover:bg-error/10 hover:text-error disabled:opacity-40"
                     >
@@ -231,6 +204,10 @@ export function IntegrationsView() {
           </div>
         )}
       </div>
+
+      {showConnectModal && (
+        <ConnectRepositoryModal onClose={() => setShowConnectModal(false)} />
+      )}
     </div>
   );
 }
