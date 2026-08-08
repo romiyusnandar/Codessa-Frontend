@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
-import { useReviews, useReviewStats } from "@/lib/hooks";
+import { useRepositories, useReviews, useReviewStats } from "@/lib/hooks";
 import type { ReviewStatus } from "@/lib/types";
 
 function formatReviewTime(ms: number): string {
@@ -14,14 +14,9 @@ function formatReviewTime(ms: number): string {
   return `${hours.toFixed(1)}h`;
 }
 
-// The repository list and system status card below are still placeholder
-// content — only the metric cards and last-pull-request list are wired to
-// real data (GET /reviews/stats, GET /reviews?perPage=5) so far.
-const repositories = [
-  { name: "frontend-core", branch: "main branch", active: true },
-  { name: "billing-service", branch: "main branch", active: true },
-  { name: "worker-nodes", branch: "staging branch", active: false },
-];
+// The system status card below is still placeholder content — everything
+// else on this page is wired to real data now.
+const REPOS_LIMIT = 5;
 
 const statusBadge: Record<ReviewStatus, { icon: string; cls: string; spin?: boolean }> = {
   success: { icon: "done_all", cls: "bg-secondary text-on-secondary shadow-sm" },
@@ -58,6 +53,8 @@ function ReviewStatusBadge({
 export function InstalledOverview() {
   const { stats, isLoading: statsLoading } = useReviewStats();
   const { reviews, isLoading: reviewsLoading } = useReviews(undefined, 5);
+  const { repositories, isLoading: reposLoading } = useRepositories(1, REPOS_LIMIT, "", true);
+  const enabledRepos = repositories?.data ?? [];
 
   return (
     <div className="relative flex w-full flex-col gap-8 overflow-hidden p-6 sm:p-8">
@@ -212,34 +209,41 @@ export function InstalledOverview() {
             Repositories
           </h2>
           <div className="flex flex-col overflow-hidden rounded-xl bg-surface-container shadow-sm">
-            {repositories.map((repo, i) => (
-              <div key={repo.name}>
-                <div className="flex items-center justify-between p-4 transition-colors hover:bg-surface-container-high">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded bg-surface-container-highest text-on-surface-variant">
-                      <Icon name="folder" className="text-[18px]" />
+            {reposLoading && (
+              <p className="p-4 text-sm text-on-surface-variant">Loading...</p>
+            )}
+
+            {!reposLoading && enabledRepos.length === 0 && (
+              <p className="p-4 text-sm text-on-surface-variant">
+                Belum ada repository yang diaktifkan.
+              </p>
+            )}
+
+            {!reposLoading &&
+              enabledRepos.map((repo, i) => (
+                <div key={repo.fullName}>
+                  <div className="flex items-center justify-between p-4 transition-colors hover:bg-surface-container-high">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded bg-surface-container-highest text-on-surface-variant">
+                        <Icon name="folder" className="text-[18px]" />
+                      </div>
+                      <div>
+                        <h5 className="text-[15px] font-medium text-on-surface">{repo.name}</h5>
+                        <p className="font-mono text-[11px] text-on-surface-variant">
+                          {repo.defaultBranch} branch
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h5 className="text-[15px] font-medium text-on-surface">{repo.name}</h5>
-                      <p className="font-mono text-[11px] text-on-surface-variant">
-                        {repo.branch}
-                      </p>
-                    </div>
+                    <span
+                      className="h-2 w-2 rounded-full bg-primary shadow-[0_0_4px_rgba(190,198,224,0.6)]"
+                      title="Enabled"
+                    />
                   </div>
-                  <span
-                    className={`h-2 w-2 rounded-full ${
-                      repo.active
-                        ? "bg-primary shadow-[0_0_4px_rgba(190,198,224,0.6)]"
-                        : "bg-outline shadow-[0_0_4px_rgba(144,144,151,0.6)]"
-                    }`}
-                    title={repo.active ? "Active" : "Paused"}
-                  />
+                  {i < enabledRepos.length - 1 && (
+                    <div className="h-px w-full bg-outline-variant/10" />
+                  )}
                 </div>
-                {i < repositories.length - 1 && (
-                  <div className="h-px w-full bg-outline-variant/10" />
-                )}
-              </div>
-            ))}
+              ))}
             <div className="bg-surface-container-highest/50 p-1">
               <button className="flex w-full items-center justify-center gap-2 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant transition-colors hover:text-on-surface">
                 <Icon name="settings" className="text-[16px]" />
