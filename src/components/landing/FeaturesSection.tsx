@@ -18,7 +18,7 @@ export function FeaturesSection() {
         <div className="group relative overflow-hidden rounded-2xl border border-outline-variant/10 bg-surface-container-low p-8 shadow-sm md:col-span-2">
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
           <div className="relative z-10 flex h-full flex-col justify-between">
-            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/10 bg-primary-container text-primary shadow-sm">
+            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary shadow-sm">
               <Icon name="troubleshoot" className="text-[24px]" />
             </div>
             <div>
@@ -44,7 +44,7 @@ export function FeaturesSection() {
             {"{ }"}
           </div>
           <div className="relative z-10 flex h-full flex-col">
-            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-secondary/10 bg-secondary-container text-secondary shadow-sm">
+            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-secondary/20 bg-secondary/10 text-secondary shadow-sm">
               <Icon name="rule_settings" className="text-[24px]" />
             </div>
             <h3 className="mb-3 font-display text-2xl font-semibold text-on-surface">Custom Rules</h3>
@@ -70,7 +70,7 @@ export function FeaturesSection() {
 
         {/* AI Insight */}
         <div className="group relative overflow-hidden rounded-2xl border border-outline-variant/10 bg-surface-container-low p-8 shadow-sm md:col-span-1">
-          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-tertiary/10 bg-tertiary-container text-tertiary shadow-sm">
+          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-tertiary/20 bg-tertiary/10 text-tertiary shadow-sm">
             <Icon name="insights" className="text-[24px]" />
           </div>
           <h3 className="mb-3 font-display text-2xl font-semibold text-on-surface">AI Insight</h3>
@@ -82,7 +82,7 @@ export function FeaturesSection() {
 
         {/* Fast Integration */}
         <div className="group relative overflow-hidden rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-8 shadow-sm transition-colors duration-300 hover:border-secondary/50 md:col-span-1">
-          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-outline-variant/30 bg-surface-variant text-on-surface shadow-sm">
+          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary shadow-sm">
             <Icon name="bolt" className="text-[24px]" />
           </div>
           <h3 className="mb-3 font-display text-2xl font-semibold text-on-surface">
