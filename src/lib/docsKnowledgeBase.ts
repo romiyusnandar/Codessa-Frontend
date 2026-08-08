@@ -27,6 +27,14 @@ export const docsKnowledgeBase: DocsChunk[] = [
       "Codessa reviews a pull request in three steps. 1) Push Code: the developer pushes a commit and opens a pull request on GitHub. 2) AI Analysis: Codessa intercepts the webhook and fetches the diff and surrounding context for analysis. 3) Feedback: actionable comments and suggested fixes are posted directly on the pull request. Codessa doesn't just look at line-level syntax — it builds a localized semantic graph of the change to understand how it impacts surrounding files and architectural patterns.",
   },
   {
+    id: "intro-languages",
+    title: "Supported languages",
+    page: "Introduction",
+    href: "/docs#languages",
+    content:
+      "Codessa understands four programming languages when reviewing code: Python, JavaScript, PHP, and Go. Separately, the review output language — the language Codessa writes its review comments in, which is different from the code language — supports English (code en), Indonesian (code id), and Chinese (code zh). The output language is set with the language field in .codessa.yml, or from the account's Settings page, following the same configuration hierarchy as every other setting: .codessa.yml wins if it sets language, otherwise the dashboard Settings value is used, otherwise it defaults to English (en).",
+  },
+  {
     id: "quickstart-get-connected",
     title: "Get connected",
     page: "Quickstart Guide",

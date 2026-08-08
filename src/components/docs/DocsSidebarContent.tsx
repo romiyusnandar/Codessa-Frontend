@@ -1,13 +1,28 @@
+"use client";
+
 import Link from "next/link";
-import { docsNav } from "@/components/docs/docsNav";
+import { usePathname } from "next/navigation";
+import { docsNav } from "@/components/docs/docsNavItems";
 import { DocsSearch } from "@/components/docs/DocsSearch";
 import { AskAssistantCard } from "@/components/docs/AskAssistantCard";
 
-export function DocsSidebar({ activeHref }: { activeHref: string }) {
+// The nav list + search + "Ask Assistant" trigger, shared between the
+// persistent desktop sidebar and the mobile drawer (DocsNav renders both).
+export function DocsSidebarContent({
+  onNavigate,
+  onAskAssistant,
+}: {
+  onNavigate?: () => void;
+  onAskAssistant: (rect: DOMRect) => void;
+}) {
+  const pathname = usePathname();
+
   return (
-    <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-72 shrink-0 flex-col overflow-y-auto border-r border-outline-variant/30 md:flex">
+    <>
       <div className="p-6 pb-2">
-        <h2 className="mb-6 font-display text-2xl font-semibold text-on-surface">Documentation</h2>
+        <h2 className="mb-6 hidden font-display text-2xl font-semibold text-on-surface md:block">
+          Documentation
+        </h2>
         <DocsSearch />
       </div>
 
@@ -28,11 +43,12 @@ export function DocsSidebar({ activeHref }: { activeHref: string }) {
                     </li>
                   );
                 }
-                const active = item.href === activeHref;
+                const active = item.href === pathname;
                 return (
                   <li key={item.label}>
                     <Link
                       href={item.href}
+                      onClick={onNavigate}
                       className={`block rounded-md px-2 py-1.5 text-base transition-colors ${
                         active
                           ? "bg-primary/10 text-primary"
@@ -50,8 +66,8 @@ export function DocsSidebar({ activeHref }: { activeHref: string }) {
       </nav>
 
       <div className="mt-auto border-t border-outline-variant/30 p-6">
-        <AskAssistantCard />
+        <AskAssistantCard onAsk={onAskAssistant} />
       </div>
-    </aside>
+    </>
   );
 }

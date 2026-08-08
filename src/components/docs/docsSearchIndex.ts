@@ -22,6 +22,13 @@ export const docsSearchIndex: DocsSearchEntry[] = [
     excerpt: "Push code, AI analysis, feedback — the three-step review loop on every pull request.",
   },
   {
+    title: "Supported languages",
+    page: "Introduction",
+    href: "/docs#languages",
+    excerpt:
+      "Programming languages Codessa reviews (Python, JavaScript, PHP, Go) and review output languages (en, id, zh).",
+  },
+  {
     title: "Quickstart Guide",
     page: "Quickstart Guide",
     href: "/docs/quickstart-guide",

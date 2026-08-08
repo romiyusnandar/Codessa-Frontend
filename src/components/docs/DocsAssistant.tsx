@@ -106,13 +106,17 @@ export function DocsAssistant({
   }
 
   // Anchor the panel just above-and-right of the button that opened it,
-  // clamped so it never runs off the edge of the viewport.
+  // clamped so it never runs off the edge of the viewport. The width itself
+  // is clamped first (not just capped via CSS max-width) so the rest of the
+  // math — left position, tail offset — stays consistent on narrow/mobile
+  // viewports instead of assuming the full desktop width.
+  const width = Math.min(PANEL_WIDTH, window.innerWidth - EDGE_MARGIN * 2);
   const left = Math.min(
     Math.max(EDGE_MARGIN, anchor.left),
-    window.innerWidth - PANEL_WIDTH - EDGE_MARGIN,
+    window.innerWidth - width - EDGE_MARGIN,
   );
   const bottom = Math.max(EDGE_MARGIN, window.innerHeight - anchor.top + PANEL_GAP);
-  const tailOffset = Math.max(12, anchor.left - left + 8);
+  const tailOffset = Math.max(12, Math.min(width - 24, anchor.left - left + 8));
   // Never taller than the space actually available above the button.
   const height = Math.min(680, anchor.top - PANEL_GAP - EDGE_MARGIN);
 
@@ -122,8 +126,8 @@ export function DocsAssistant({
   return createPortal(
     <div
       ref={panelRef}
-      style={{ left, bottom, width: PANEL_WIDTH, height }}
-      className="animate-pop-in fixed z-[60] flex max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-outline-variant/20 bg-surface-container-lowest shadow-2xl"
+      style={{ left, bottom, width, height }}
+      className="animate-pop-in fixed z-[60] flex flex-col overflow-hidden rounded-2xl border border-outline-variant/20 bg-surface-container-lowest shadow-2xl"
     >
       {/* speech-bubble tail pointing at the button */}
       <span

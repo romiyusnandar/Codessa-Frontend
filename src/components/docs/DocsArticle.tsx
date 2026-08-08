@@ -2,6 +2,14 @@ import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { PageFeedback } from "@/components/docs/PageFeedback";
 
+const codeLanguages = ["Python", "JavaScript", "PHP", "Go"];
+
+const outputLanguages = [
+  { code: "en", label: "English" },
+  { code: "id", label: "Indonesian" },
+  { code: "zh", label: "Chinese" },
+];
+
 const steps = [
   {
     icon: "commit",
@@ -77,6 +85,75 @@ export function DocsArticle() {
               Our engine doesn&apos;t just look at line-level syntax; it builds a localized semantic
               graph of your changes to understand how modifications impact surrounding files and
               architectural patterns.
+            </p>
+          </section>
+
+          {/* Section 2 */}
+          <section id="languages" className="scroll-mt-24">
+            <div className="mb-6 flex items-center gap-4">
+              <div className="flex h-8 w-8 items-center justify-center rounded bg-surface-container-high font-mono text-sm text-secondary">
+                02
+              </div>
+              <h2 className="font-display text-2xl font-semibold text-on-surface">
+                Supported languages
+              </h2>
+            </div>
+
+            <div className="grid gap-8 sm:grid-cols-2">
+              <div>
+                <p className="text-sm font-medium text-on-surface">Code Codessa reviews</p>
+                <p className="mt-1 text-sm text-on-surface-variant">
+                  Programming languages Codessa understands well enough to analyze.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {codeLanguages.map((lang) => (
+                    <span
+                      key={lang}
+                      className="rounded-lg border border-outline-variant/30 bg-surface-container px-3 py-1.5 font-mono text-sm text-on-surface"
+                    >
+                      {lang}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-sm font-medium text-on-surface">Review output language</p>
+                <p className="mt-1 text-sm text-on-surface-variant">
+                  The language Codessa writes review comments in — separate from the code
+                  language above.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {outputLanguages.map((lang) => (
+                    <span
+                      key={lang.code}
+                      className="rounded-lg border border-outline-variant/30 bg-surface-container px-3 py-1.5 font-mono text-sm text-on-surface"
+                    >
+                      {lang.code}{" "}
+                      <span className="text-on-surface-variant">— {lang.label}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <p className="mt-6 text-base leading-relaxed text-on-surface-variant">
+              Set with the{" "}
+              <code className="rounded bg-surface-container px-1.5 py-0.5 font-mono text-sm text-on-surface">
+                language
+              </code>{" "}
+              field in{" "}
+              <Link
+                href="/docs/quickstart-guide#configuration-setup"
+                className="text-primary hover:underline"
+              >
+                .codessa.yml
+              </Link>
+              , or from the account&apos;s Settings page — following the same{" "}
+              <Link href="/docs/configuration-hierarchy" className="text-primary hover:underline">
+                configuration hierarchy
+              </Link>{" "}
+              as every other setting.
             </p>
           </section>
 
