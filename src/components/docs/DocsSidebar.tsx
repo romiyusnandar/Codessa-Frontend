@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Icon } from "@/components/Icon";
 import { docsNav } from "@/components/docs/docsNav";
 import { DocsSearch } from "@/components/docs/DocsSearch";
+import { AskAssistantCard } from "@/components/docs/AskAssistantCard";
 
 export function DocsSidebar({ activeHref }: { activeHref: string }) {
   return (
@@ -50,15 +50,7 @@ export function DocsSidebar({ activeHref }: { activeHref: string }) {
       </nav>
 
       <div className="mt-auto border-t border-outline-variant/30 p-6">
-        <div className="flex items-center gap-3">
-          <Icon name="support_agent" className="text-primary" />
-          <div>
-            <p className="text-base text-on-surface">Need help?</p>
-            <a href="#" className="text-base text-primary hover:underline">
-              Contact Support
-            </a>
-          </div>
-        </div>
+        <AskAssistantCard />
       </div>
     </aside>
   );
