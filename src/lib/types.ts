@@ -1,7 +1,12 @@
 export type ReviewLanguage = string;
 
+export type ReviewTone = "friendly" | "strict" | "concise";
+
 export interface UserSettings {
   reviewLanguage: ReviewLanguage;
+  // Optional: accounts created before these fields existed may not have them set.
+  tone?: ReviewTone;
+  customInstructions?: string;
 }
 
 export interface Language {

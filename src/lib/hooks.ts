@@ -37,17 +37,25 @@ export function useRepositories(page: number, perPage: number, search: string, e
   return { repositories: data, error, isLoading, mutate };
 }
 
-export function useReviews(repo?: string, perPage?: number) {
+export function useReviews(repo?: string, perPage?: number, page?: number) {
   const params = new URLSearchParams();
   if (repo) params.set("repo", repo);
   if (perPage) params.set("perPage", String(perPage));
+  if (page) params.set("page", String(page));
   const qs = params.toString();
 
   const { data, error, isLoading, mutate } = useSWR<ReviewsResponse>(
     `/reviews${qs ? `?${qs}` : ""}`,
     fetcher,
   );
-  return { reviews: data?.data, total: data?.total, error, isLoading, mutate };
+  return {
+    reviews: data?.data,
+    total: data?.total,
+    totalPages: data?.totalPages,
+    error,
+    isLoading,
+    mutate,
+  };
 }
 
 export function useReviewStats() {

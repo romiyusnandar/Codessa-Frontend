@@ -9,7 +9,6 @@ import { useReviews } from "@/lib/hooks";
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: "dashboard", exact: true },
   { label: "History", href: "/dashboard/history", icon: "history", exact: false },
-  { label: "Pull Requests", href: null, icon: "merge_type" },
   { label: "Integrations", href: "/dashboard/integrations", icon: "extension", exact: false },
   { label: "Settings", href: "/dashboard/settings", icon: "settings", exact: false },
 ];
