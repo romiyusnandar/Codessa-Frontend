@@ -1,8 +1,8 @@
 import Image from "next/image";
 
-// The logo file (public/codesa_sq.png) is a full square lockup: shield on top,
-// "CODESSA" wordmark below. LogoMark crops to just the shield so the logo reads
-// as a compact icon at small sizes.
+// The logo file (public/codessa_logo.png) is a full square lockup: the chevron
+// mark on top, "Codessa" wordmark below, on a dark navy tile. LogoMark crops to
+// just the chevron mark so the logo reads as a compact icon at small sizes.
 export function LogoMark({
   size = 28,
   rounded = "rounded-md",
@@ -12,17 +12,17 @@ export function LogoMark({
 }) {
   return (
     <span
-      className={`relative inline-block shrink-0 overflow-hidden bg-white ${rounded}`}
+      className={`relative inline-block shrink-0 overflow-hidden ${rounded}`}
       style={{ width: size, height: size }}
     >
       <Image
-        src="/codesa_sq.png"
+        src="/codessa_logo.png"
         alt="Codessa"
-        width={Math.round(size * 2.15)}
-        height={Math.round(size * 2.15)}
+        width={Math.round(size * 2)}
+        height={Math.round(size * 2)}
         priority
         className="absolute max-w-none"
-        style={{ left: -0.63 * size, top: -0.36 * size }}
+        style={{ left: -0.51 * size, top: -0.34 * size }}
       />
     </span>
   );
