@@ -1,11 +1,59 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
+import type { CSSProperties } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { loginWithGithub } from "@/lib/api";
 import { Icon } from "@/components/Icon";
 
 const languages = ["Python", "JavaScript", "PHP", "Go"];
+
+const GRID_LINE = "color-mix(in srgb, var(--primary) 12%, transparent)";
+const GRID = `linear-gradient(to right, ${GRID_LINE} 1px, transparent 1px), linear-gradient(to bottom, ${GRID_LINE} 1px, transparent 1px)`;
+const GRID_STRONG =
+  "linear-gradient(to right, var(--primary) 1px, transparent 1px), linear-gradient(to bottom, var(--primary) 1px, transparent 1px)";
+const CELL = "72px 72px";
+
+// Grid that is always faintly visible, and brightens around the cursor on
+// hover. The mouse position is written to CSS custom properties on the section
+// (via ref, so there is no React re-render) and read here through a radial mask.
+function InteractiveGrid() {
+  return (
+    <>
+      {/* base grid — always visible, low opacity, fading toward the content */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          backgroundImage: GRID,
+          backgroundSize: CELL,
+          WebkitMaskImage: "linear-gradient(to bottom, black 40%, transparent 92%)",
+          maskImage: "linear-gradient(to bottom, black 40%, transparent 92%)",
+        }}
+      />
+      {/* highlight grid — brighter lines that follow the cursor on hover */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-300 group-hover/hero:opacity-100"
+        style={{
+          backgroundImage: GRID_STRONG,
+          backgroundSize: CELL,
+          WebkitMaskImage:
+            "radial-gradient(240px circle at var(--mx) var(--my), rgba(0,0,0,0.9), transparent 70%)",
+          maskImage:
+            "radial-gradient(240px circle at var(--mx) var(--my), rgba(0,0,0,0.9), transparent 70%)",
+        }}
+      />
+      {/* soft glow around the cursor */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-300 group-hover/hero:opacity-100"
+        style={{
+          background:
+            "radial-gradient(320px circle at var(--mx) var(--my), color-mix(in srgb, var(--primary) 14%, transparent), transparent 72%)",
+        }}
+      />
+    </>
+  );
+}
 
 function LoginErrorBanner() {
   const searchParams = useSearchParams();
@@ -42,8 +90,24 @@ function FloatingCodeCard() {
 }
 
 export function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
+    const el = sectionRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  }
+
   return (
-    <section className="relative flex min-h-[820px] flex-col items-center justify-center overflow-hidden px-6 py-32 md:px-10">
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      style={{ "--mx": "50%", "--my": "-200px" } as CSSProperties}
+      className="group/hero relative flex min-h-[820px] flex-col items-center justify-center overflow-hidden px-6 py-32 md:px-10"
+    >
+      <InteractiveGrid />
       <FloatingCodeCard />
 
       <div className="z-10 mx-auto mt-12 max-w-4xl space-y-8 text-center">
@@ -83,13 +147,13 @@ export function HeroSection() {
             Start for free
             <Icon name="rocket_launch" className="text-[18px]" />
           </button>
-          <a
-            href="#demo"
+          <Link
+            href="/docs"
             className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-outline-variant bg-transparent px-8 py-4 text-xs font-semibold uppercase tracking-wider text-on-surface transition-colors hover:bg-surface-container sm:w-auto"
           >
-            View demo
-            <Icon name="play_circle" className="text-[18px]" />
-          </a>
+            Docs
+            <Icon name="menu_book" className="text-[18px]" />
+          </Link>
         </div>
 
         <div className="mt-8 flex flex-col items-center border-t border-outline-variant/20 pt-16 opacity-70">

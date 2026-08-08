@@ -19,12 +19,6 @@ export function LandingHeader() {
           <a href="#features" className="font-bold text-primary transition-colors">
             Features
           </a>
-          <a
-            href="#demo"
-            className="text-on-surface-variant transition-colors hover:text-on-surface"
-          >
-            Demo
-          </a>
           <Link
             href="/docs"
             className="text-on-surface-variant transition-colors hover:text-on-surface"
