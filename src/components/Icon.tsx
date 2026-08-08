@@ -1,7 +1,19 @@
 // Material Symbols icon. The font is loaded in the root layout.
-export function Icon({ name, className }: { name: string; className?: string }) {
+export function Icon({
+  name,
+  className,
+  filled,
+}: {
+  name: string;
+  className?: string;
+  filled?: boolean;
+}) {
   return (
-    <span className={`material-symbols-outlined ${className ?? ""}`} aria-hidden>
+    <span
+      className={`material-symbols-outlined ${className ?? ""}`}
+      style={filled ? { fontVariationSettings: "'FILL' 1" } : undefined}
+      aria-hidden
+    >
       {name}
     </span>
   );
