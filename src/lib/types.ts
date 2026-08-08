@@ -45,6 +45,11 @@ export interface RepositoriesResponse {
 
 export type ReviewStatus = "pending" | "running" | "success" | "failed" | "skipped";
 
+// The verdict on the CODE itself (only meaningful once status === "success"),
+// as opposed to `status` which just tracks whether Codessa's own review
+// process completed. A critical bug found still leaves status "success".
+export type ReviewVerdict = "passed" | "issues_found" | "error";
+
 export type ReviewSeverity = "info" | "minor" | "major" | "critical";
 
 export interface ReviewComment {
@@ -72,6 +77,9 @@ export interface Review {
   additions: number;
   deletions: number;
   status: ReviewStatus;
+  // Optional: only set once the review completes, and absent on reviews
+  // created before the backend started returning it.
+  verdict?: ReviewVerdict;
   summary: string;
   comments: ReviewComment[];
   errorMessage?: string;

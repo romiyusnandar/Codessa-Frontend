@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { useRepositories, useReviews, useReviewStats } from "@/lib/hooks";
-import { ReviewStatusBadge } from "@/components/dashboard/ReviewStatusBadge";
+import { ReviewOutcomeBadge } from "@/components/dashboard/ReviewOutcomeBadge";
 
 function formatReviewTime(ms: number): string {
   const seconds = ms / 1000;
@@ -166,7 +166,7 @@ export function InstalledOverview() {
                     <div className="flex items-center gap-1 rounded bg-surface-container-highest px-2 py-1 font-mono text-[11px] text-primary">
                       +{review.additions}
                     </div>
-                    <ReviewStatusBadge status={review.status} errorMessage={review.errorMessage} />
+                    <ReviewOutcomeBadge review={review} />
                   </div>
                 </div>
               ))}

@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useReviews } from "@/lib/hooks";
 import { Icon } from "@/components/Icon";
-import { ReviewStatusBadge } from "@/components/dashboard/ReviewStatusBadge";
+import { ReviewOutcomeBadge } from "@/components/dashboard/ReviewOutcomeBadge";
 import { SeverityBadge } from "@/components/dashboard/SeverityBadge";
+import { ReviewPdfPreviewModal } from "@/components/dashboard/ReviewPdfPreviewModal";
+import type { Review } from "@/lib/types";
 
 const PER_PAGE = 10;
 
@@ -12,6 +14,7 @@ export function HistoryView() {
   const [repoFilter, setRepoFilter] = useState("");
   const [page, setPage] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [previewReview, setPreviewReview] = useState<Review | null>(null);
   const { reviews, totalPages, isLoading, error } = useReviews(
     repoFilter || undefined,
     PER_PAGE,
@@ -81,9 +84,17 @@ export function HistoryView() {
                   {review.status === "running" && (
                     <div className="absolute inset-y-0 left-0 w-1 animate-pulse bg-secondary" />
                   )}
-                  <button
+                  <div
+                    role="button"
+                    tabIndex={0}
                     onClick={() => setExpandedId(isExpanded ? null : review._id)}
-                    className="flex w-full flex-col gap-4 p-4 text-left md:flex-row md:items-center"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setExpandedId(isExpanded ? null : review._id);
+                      }
+                    }}
+                    className="flex w-full cursor-pointer flex-col gap-4 p-4 text-left md:flex-row md:items-center"
                   >
                     <div className="min-w-0 flex-1">
                       <div className="mb-1 flex items-center gap-2">
@@ -112,7 +123,18 @@ export function HistoryView() {
                       <div className="flex items-center gap-1 rounded bg-surface-container-highest px-2 py-1 font-mono text-[11px] text-primary">
                         +{review.additions}
                       </div>
-                      <ReviewStatusBadge status={review.status} errorMessage={review.errorMessage} />
+                      <ReviewOutcomeBadge review={review} />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPreviewReview(review);
+                        }}
+                        title="Preview & export as PDF"
+                        aria-label="Preview review as PDF"
+                        className="flex h-8 w-8 items-center justify-center rounded-full bg-error/10 text-error transition hover:bg-error/20"
+                      >
+                        <Icon name="picture_as_pdf" filled className="text-[18px]" />
+                      </button>
                       <Icon
                         name="expand_more"
                         className={`text-on-surface-variant transition-transform ${
@@ -120,7 +142,7 @@ export function HistoryView() {
                         }`}
                       />
                     </div>
-                  </button>
+                  </div>
 
                   {isExpanded && (
                     <div className="border-t border-outline-variant/10 bg-surface-container-lowest/40 p-4">
@@ -181,6 +203,13 @@ export function HistoryView() {
           </div>
         )}
       </div>
+
+      {previewReview && (
+        <ReviewPdfPreviewModal
+          review={previewReview}
+          onClose={() => setPreviewReview(null)}
+        />
+      )}
     </div>
   );
 }
