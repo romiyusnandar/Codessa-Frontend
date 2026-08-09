@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { useRepositories, useReviews, useReviewStats } from "@/lib/hooks";
@@ -19,10 +20,24 @@ function formatReviewTime(ms: number): string {
 const REPOS_LIMIT = 5;
 
 export function InstalledOverview() {
-  const { stats, isLoading: statsLoading } = useReviewStats();
-  const { reviews, isLoading: reviewsLoading } = useReviews(undefined, 5);
-  const { repositories, isLoading: reposLoading } = useRepositories(1, REPOS_LIMIT, "", true);
+  const [syncing, setSyncing] = useState(false);
+  const { stats, isLoading: statsLoading, mutate: mutateStats } = useReviewStats();
+  const { reviews, isLoading: reviewsLoading, mutate: mutateReviews } = useReviews(undefined, 5);
+  const {
+    repositories,
+    isLoading: reposLoading,
+    mutate: mutateRepositories,
+  } = useRepositories(1, REPOS_LIMIT, "", true);
   const enabledRepos = repositories?.data ?? [];
+
+  async function handleSyncNow() {
+    setSyncing(true);
+    try {
+      await Promise.all([mutateStats(), mutateReviews(), mutateRepositories()]);
+    } finally {
+      setSyncing(false);
+    }
+  }
 
   return (
     <div className="relative flex w-full flex-col gap-8 overflow-hidden p-6 sm:p-8">
@@ -40,10 +55,14 @@ export function InstalledOverview() {
           </p>
         </div>
         <div className="flex gap-4">
-          {/* <button className="flex items-center gap-2 rounded-lg bg-surface-container-high px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface shadow-sm transition-colors hover:bg-surface-container-highest">
-            <Icon name="refresh" className="text-[18px]" />
-            Sync Now
-          </button> */}
+          <button
+            onClick={handleSyncNow}
+            disabled={syncing}
+            className="flex items-center gap-2 rounded-lg bg-surface-container-high px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface shadow-sm transition-colors hover:bg-surface-container-highest disabled:opacity-60"
+          >
+            <Icon name="refresh" className={`text-[18px] ${syncing ? "animate-spin" : ""}`} />
+            {syncing ? "Syncing..." : "Sync Now"}
+          </button>
           <Link
             href="/dashboard/integrations"
             className="flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-secondary shadow-md transition-colors hover:opacity-90"
@@ -160,10 +179,10 @@ export function InstalledOverview() {
                     </div>
                   </div>
                   <div className="flex shrink-0 items-center gap-3">
-                    <div className="flex items-center gap-1 rounded bg-surface-container-highest px-2 py-1 font-mono text-[11px] text-error">
+                    <div className="flex items-center gap-1 rounded-md bg-surface-container-highest px-2.5 py-1.5 font-mono text-sm font-semibold text-error">
                       -{review.deletions}
                     </div>
-                    <div className="flex items-center gap-1 rounded bg-surface-container-highest px-2 py-1 font-mono text-[11px] text-primary">
+                    <div className="flex items-center gap-1 rounded-md bg-surface-container-highest px-2.5 py-1.5 font-mono text-sm font-semibold text-primary">
                       +{review.additions}
                     </div>
                     <ReviewOutcomeBadge review={review} />
@@ -227,7 +246,7 @@ export function InstalledOverview() {
           </div>
 
           {/* System status */}
-          <div className="group relative flex flex-col gap-2 overflow-hidden rounded-xl bg-[#020617] p-4 font-mono text-[13px]">
+          {/* <div className="group relative flex flex-col gap-2 overflow-hidden rounded-xl bg-[#020617] p-4 font-mono text-[13px]">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             <div className="flex items-center justify-between text-on-surface-variant">
               <span>Review Engine</span>
@@ -241,7 +260,7 @@ export function InstalledOverview() {
               <span>Context Window</span>
               <span className="text-tertiary">128k</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -27,14 +27,19 @@
   --on-primary: #ffffff;
   --primary-container: #7c3aed;
   --on-primary-container: #ede0ff;
-  --secondary: #565e74;
+  /* Secondary = Electric Purple "AI accent" per DESIGN.md — the mockup's
+     light-mode value was a dull slate gray that didn't match the brand's
+     own spec, which is why badges/buttons/toggles built around "secondary"
+     looked pale in light mode. */
+  --secondary: #8b5cf6;
   --on-secondary: #ffffff;
-  --secondary-container: #dae2fd;
-  --on-secondary-container: #3f465c;
-  --tertiary: #4c4f51;
+  --secondary-container: #ede9fe;
+  --on-secondary-container: #5b21b6;
+  /* Tertiary = Electric Blue "action" per DESIGN.md, same fix as above. */
+  --tertiary: #0ea5e9;
   --on-tertiary: #ffffff;
-  --tertiary-container: #646769;
-  --on-tertiary-container: #e4e6e8;
+  --tertiary-container: #e0f2fe;
+  --on-tertiary-container: #075985;
   --error: #ba1a1a;
   --on-error: #ffffff;
   --error-container: #ffdad6;

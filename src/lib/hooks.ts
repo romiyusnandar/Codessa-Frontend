@@ -59,8 +59,8 @@ export function useReviews(repo?: string, perPage?: number, page?: number) {
 }
 
 export function useReviewStats() {
-  const { data, error, isLoading } = useSWR<ReviewStats>("/reviews/stats", fetcher);
-  return { stats: data, error, isLoading };
+  const { data, error, isLoading, mutate } = useSWR<ReviewStats>("/reviews/stats", fetcher);
+  return { stats: data, error, isLoading, mutate };
 }
 
 export function useLanguages() {

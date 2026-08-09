@@ -117,10 +117,10 @@ export function HistoryView() {
                       </div>
                     </div>
                     <div className="flex shrink-0 items-center gap-3">
-                      <div className="flex items-center gap-1 rounded bg-surface-container-highest px-2 py-1 font-mono text-[11px] text-error">
+                      <div className="flex items-center gap-1 rounded-md bg-surface-container-highest px-2.5 py-1.5 font-mono text-sm font-semibold text-error">
                         -{review.deletions}
                       </div>
-                      <div className="flex items-center gap-1 rounded bg-surface-container-highest px-2 py-1 font-mono text-[11px] text-primary">
+                      <div className="flex items-center gap-1 rounded-md bg-surface-container-highest px-2.5 py-1.5 font-mono text-sm font-semibold text-primary">
                         +{review.additions}
                       </div>
                       <ReviewOutcomeBadge review={review} />
