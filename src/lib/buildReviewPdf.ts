@@ -105,19 +105,31 @@ export async function buildReviewPdf(review: Review): Promise<BuiltReviewPdf> {
 
     autoTable(doc, {
       startY: y,
-      head: [["File", "Line", "Severity", "Comment"]],
-      body: review.comments.map((c) => [
-        c.filePath,
-        String(c.line),
-        severityLabel[c.severity] ?? c.severity,
-        c.comment,
-      ]),
+      head: [["File", "Line", "Source", "Severity", "Comment", "Vulnerability"]],
+      body: review.comments.map((c) => {
+        const vulnParts: string[] = [];
+        if (c.cwe) vulnParts.push(`${c.cwe.id} — ${c.cwe.name}`);
+        if (c.cvss) vulnParts.push(`CVSS ${c.cvss.score.toFixed(1)} (${c.cvss.vector})`);
+        if (c.vulnerabilityId) {
+          vulnParts.push(`${c.vulnerabilityId} — https://osv.dev/vulnerability/${c.vulnerabilityId}`);
+        }
+        return [
+          c.filePath,
+          String(c.line),
+          c.source === "sca" ? "Dependency Scan" : "AI",
+          severityLabel[c.severity] ?? c.severity,
+          c.comment,
+          vulnParts.join("\n") || "—",
+        ];
+      }),
       styles: { fontSize: 9, cellPadding: 6, valign: "top" },
       headStyles: { fillColor: [99, 14, 212], textColor: 255 },
       columnStyles: {
-        0: { cellWidth: 140 },
-        1: { cellWidth: 36 },
+        0: { cellWidth: 90 },
+        1: { cellWidth: 30 },
         2: { cellWidth: 55 },
+        3: { cellWidth: 45 },
+        4: { cellWidth: 130 },
       },
       margin: { left: marginX, right: marginX },
     });

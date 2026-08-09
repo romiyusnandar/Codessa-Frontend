@@ -52,11 +52,30 @@ export type ReviewVerdict = "passed" | "issues_found" | "error";
 
 export type ReviewSeverity = "info" | "minor" | "major" | "critical";
 
+// Which engine produced the finding: an LLM code review pass ("ai") or a
+// software composition analysis / dependency vulnerability scan ("sca").
+export type ReviewCommentSource = "ai" | "sca";
+
+export interface ReviewCommentCwe {
+  id: string;
+  name: string;
+}
+
+export interface ReviewCommentCvss {
+  vector: string;
+  score: number;
+}
+
 export interface ReviewComment {
   filePath: string;
   line: number;
   severity: ReviewSeverity;
   comment: string;
+  // Optional: only present on newer reviews / SCA findings.
+  source?: ReviewCommentSource;
+  cwe?: ReviewCommentCwe;
+  cvss?: ReviewCommentCvss;
+  vulnerabilityId?: string;
 }
 
 export interface ReviewStats {

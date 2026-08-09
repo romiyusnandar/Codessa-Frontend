@@ -6,6 +6,7 @@ export function Icon({
   className,
   filled,
   size,
+  title,
 }: {
   name: string;
   className?: string;
@@ -14,6 +15,7 @@ export function Icon({
    *  CSS (font-size utility classes have occasionally been overridden by
    *  cascade layer ordering here — inline style has the highest priority). */
   size?: number;
+  title?: string;
 }) {
   const style: CSSProperties = {
     ...(filled ? { fontVariationSettings: "'FILL' 1" } : undefined),
@@ -24,7 +26,8 @@ export function Icon({
     <span
       className={`material-symbols-outlined ${className ?? ""}`}
       style={Object.keys(style).length ? style : undefined}
-      aria-hidden
+      title={title}
+      aria-hidden={title ? undefined : true}
     >
       {name}
     </span>

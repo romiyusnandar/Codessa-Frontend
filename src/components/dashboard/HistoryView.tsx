@@ -5,6 +5,7 @@ import { useReviews } from "@/lib/hooks";
 import { Icon } from "@/components/Icon";
 import { ReviewOutcomeBadge } from "@/components/dashboard/ReviewOutcomeBadge";
 import { SeverityBadge } from "@/components/dashboard/SeverityBadge";
+import { CvssBadge } from "@/components/dashboard/CvssBadge";
 import { ReviewPdfPreviewModal } from "@/components/dashboard/ReviewPdfPreviewModal";
 import type { Review } from "@/lib/types";
 
@@ -161,12 +162,42 @@ export function HistoryView() {
                               className="rounded-lg border border-outline-variant/20 bg-surface-container p-3"
                             >
                               <div className="flex items-center justify-between gap-2">
-                                <span className="font-mono text-xs text-on-surface-variant">
+                                <span className="flex items-center gap-1.5 font-mono text-xs text-on-surface-variant">
+                                  <Icon
+                                    name={comment.source === "sca" ? "package_2" : "smart_toy"}
+                                    className="text-[13px]"
+                                    title={comment.source === "sca" ? "Dependency Scan" : "AI Review"}
+                                  />
                                   {comment.filePath}:{comment.line}
                                 </span>
                                 <SeverityBadge severity={comment.severity} />
                               </div>
                               <p className="mt-1 text-sm text-on-surface">{comment.comment}</p>
+
+                              {(comment.cwe || comment.cvss || comment.vulnerabilityId) && (
+                                <div className="mt-2 flex flex-wrap items-center gap-2">
+                                  {comment.cwe && (
+                                    <span
+                                      className="inline-flex items-center rounded-full bg-secondary-container/40 px-2 py-0.5 text-[10px] font-semibold text-on-secondary-container"
+                                      title={comment.cwe.name}
+                                    >
+                                      {comment.cwe.id} · {comment.cwe.name}
+                                    </span>
+                                  )}
+                                  {comment.cvss && <CvssBadge cvss={comment.cvss} />}
+                                  {comment.vulnerabilityId && (
+                                    <a
+                                      href={`https://osv.dev/vulnerability/${comment.vulnerabilityId}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-1 rounded-full bg-surface-container-highest px-2 py-0.5 text-[10px] font-semibold text-tertiary transition hover:opacity-80"
+                                    >
+                                      <Icon name="open_in_new" className="text-[12px]" />
+                                      {comment.vulnerabilityId}
+                                    </a>
+                                  )}
+                                </div>
+                              )}
                             </li>
                           ))}
                         </ul>
