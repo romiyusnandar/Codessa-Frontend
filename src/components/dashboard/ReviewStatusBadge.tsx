@@ -2,14 +2,14 @@ import { Icon } from "@/components/Icon";
 import type { ReviewStatus } from "@/lib/types";
 
 const statusBadge: Record<ReviewStatus, { icon: string; cls: string; spin?: boolean }> = {
-  success: { icon: "done_all", cls: "bg-secondary text-on-secondary shadow-sm" },
+  success: { icon: "done_all", cls: "bg-moss-soft text-moss" },
   running: {
     icon: "sync",
     cls: "bg-surface-container-highest text-on-surface-variant",
     spin: true,
   },
   pending: { icon: "hourglass_empty", cls: "bg-surface-container-highest text-on-surface-variant" },
-  failed: { icon: "error", cls: "bg-error-container/20 text-error" },
+  failed: { icon: "error", cls: "bg-rust-soft text-rust" },
   skipped: { icon: "block", cls: "bg-surface-container-highest text-on-surface-variant" },
 };
 

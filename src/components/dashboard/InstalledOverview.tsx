@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { useRepositories, useReviews, useReviewStats } from "@/lib/hooks";
 import { ReviewOutcomeBadge } from "@/components/dashboard/ReviewOutcomeBadge";
+import { ReviewPdfPreviewModal } from "@/components/dashboard/ReviewPdfPreviewModal";
+import type { Review } from "@/lib/types";
 
 function formatReviewTime(ms: number): string {
   const seconds = ms / 1000;
@@ -21,6 +23,7 @@ const REPOS_LIMIT = 5;
 
 export function InstalledOverview() {
   const [syncing, setSyncing] = useState(false);
+  const [previewReview, setPreviewReview] = useState<Review | null>(null);
   const { stats, isLoading: statsLoading, mutate: mutateStats } = useReviewStats();
   const { reviews, isLoading: reviewsLoading, mutate: mutateReviews } = useReviews(undefined, 5);
   const {
@@ -186,6 +189,14 @@ export function InstalledOverview() {
                       +{review.additions}
                     </div>
                     <ReviewOutcomeBadge review={review} />
+                    <button
+                      onClick={() => setPreviewReview(review)}
+                      title="Preview & export as PDF"
+                      aria-label="Preview review as PDF"
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-error/10 text-error transition hover:bg-error/20"
+                    >
+                      <Icon name="picture_as_pdf" filled className="text-[18px]" />
+                    </button>
                   </div>
                 </div>
               ))}
@@ -263,6 +274,13 @@ export function InstalledOverview() {
           </div> */}
         </div>
       </div>
+
+      {previewReview && (
+        <ReviewPdfPreviewModal
+          review={previewReview}
+          onClose={() => setPreviewReview(null)}
+        />
+      )}
     </div>
   );
 }
