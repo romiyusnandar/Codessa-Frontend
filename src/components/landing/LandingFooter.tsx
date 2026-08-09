@@ -12,9 +12,9 @@ export function LandingFooter() {
           <Link href="/dashboard" className="transition-colors hover:text-primary">
             Dashboard
           </Link>
-          <a href="#features" className="transition-colors hover:text-primary">
+          {/* <a href="#features" className="transition-colors hover:text-primary">
             Features
-          </a>
+          </a> */}
         </div>
       </div>
     </footer>

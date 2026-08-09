@@ -16,9 +16,9 @@ export function LandingHeader() {
           </span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
-          <a href="#features" className="font-bold text-primary transition-colors">
+          {/* <a href="#features" className="font-bold text-primary transition-colors">
             Features
-          </a>
+          </a> */}
           <Link
             href="/docs"
             className="text-on-surface-variant transition-colors hover:text-on-surface"
