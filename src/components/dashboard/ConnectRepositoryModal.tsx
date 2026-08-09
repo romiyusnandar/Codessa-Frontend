@@ -111,7 +111,7 @@ export function ConnectRepositoryModal({ onClose }: { onClose: () => void }) {
                         onChange={() => toggleRepo(repo.owner, repo.name, !repo.enabled)}
                         className="peer sr-only"
                       />
-                      <div className="peer relative h-5 w-9 rounded-full bg-surface-variant transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary peer-checked:after:translate-x-full peer-disabled:opacity-50" />
+                      <div className="peer relative h-5 w-9 rounded-full bg-surface-variant transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-secondary peer-checked:after:translate-x-full peer-disabled:opacity-50" />
                     </label>
                   </li>
                 );

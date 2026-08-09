@@ -105,7 +105,7 @@ export function HeroSection() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       style={{ "--mx": "50%", "--my": "-200px" } as CSSProperties}
-      className="group/hero relative flex min-h-[820px] flex-col items-center justify-center overflow-hidden px-6 py-32 md:px-10"
+      className="group/hero relative flex min-h-205 flex-col items-center justify-center overflow-hidden px-6 py-32 md:px-10"
     >
       <InteractiveGrid />
       <FloatingCodeCard />
@@ -129,7 +129,7 @@ export function HeroSection() {
         <h1 className="font-display text-[56px] font-bold leading-[1.1] tracking-tighter text-on-surface drop-shadow-sm md:text-[80px]">
           AI-Powered PR Reviews
           <br />
-          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
             for GitHub
           </span>
         </h1>

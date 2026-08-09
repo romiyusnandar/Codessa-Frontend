@@ -28,9 +28,9 @@ const steps = [
 
 export function NotInstalledHero() {
   return (
-    <div className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-surface to-surface-container-low p-6 sm:p-10">
-      <div className="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/3 translate-x-1/3 rounded-full bg-secondary-container/30 blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-[600px] w-[600px] -translate-x-1/2 translate-y-1/3 rounded-full bg-tertiary-container/10 blur-[150px]" />
+    <div className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col items-center justify-center overflow-hidden bg-linear-to-br from-surface to-surface-container-low p-6 sm:p-10">
+      <div className="pointer-events-none absolute right-0 top-0 h-125 w-125 -translate-y-1/3 translate-x-1/3 rounded-full bg-secondary-container/30 blur-[120px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-150 w-150 -translate-x-1/2 translate-y-1/3 rounded-full bg-tertiary-container/10 blur-[150px]" />
 
       <div className="relative z-10 flex w-full max-w-4xl flex-col items-center space-y-12 text-center">
         <div className="flex flex-col items-center space-y-6">
@@ -97,7 +97,7 @@ export function NotInstalledHero() {
           <div className="relative grid grid-cols-1 gap-8 md:grid-cols-3">
             {/* Aligned to the vertical center of the h-12 number circles below,
                 not the whole column (which also includes title/body text). */}
-            <div className="absolute left-[16%] right-[16%] top-6 hidden h-[2px] bg-gradient-to-r from-surface-container-highest via-outline-variant/60 to-surface-container-highest md:block" />
+            <div className="absolute left-[16%] right-[16%] top-6 hidden h-0.5 bg-linear-to-r from-surface-container-highest via-outline-variant/60 to-surface-container-highest md:block" />
             {steps.map((step) => (
               <div key={step.n} className="group relative z-10 flex flex-col items-center text-center">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-outline-variant/30 bg-surface-container-high shadow-sm transition-transform duration-300 group-hover:scale-110">

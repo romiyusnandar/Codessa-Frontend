@@ -16,7 +16,7 @@ export function FeaturesSection() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* Automated Reviews — large */}
         <div className="group relative overflow-hidden rounded-2xl border border-outline-variant/10 bg-surface-container-low p-8 shadow-sm md:col-span-2">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
           <div className="relative z-10 flex h-full flex-col justify-between">
             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary shadow-sm">
               <Icon name="troubleshoot" className="text-[24px]" />
@@ -32,8 +32,8 @@ export function FeaturesSection() {
             </div>
             <div className="mt-8 flex gap-2">
               <div className="h-2 flex-1 rounded-full bg-error opacity-70" />
-              <div className="h-2 flex-[2] rounded-full bg-tertiary opacity-80" />
-              <div className="h-2 flex-[3] rounded-full bg-secondary" />
+              <div className="h-2 flex-2 rounded-full bg-tertiary opacity-80" />
+              <div className="h-2 flex-3 rounded-full bg-secondary" />
             </div>
           </div>
         </div>

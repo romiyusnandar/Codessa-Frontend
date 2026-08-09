@@ -27,7 +27,7 @@ export function InstalledOverview() {
   return (
     <div className="relative flex w-full flex-col gap-8 overflow-hidden p-6 sm:p-8">
       <div className="pointer-events-none absolute right-0 top-0 -z-10 h-96 w-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-secondary/10 blur-[100px]" />
-      <div className="pointer-events-none absolute bottom-0 left-0 -z-10 h-[500px] w-[500px] -translate-x-1/3 translate-y-1/3 rounded-full bg-tertiary/5 blur-[120px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 -z-10 h-125 w-125 -translate-x-1/3 translate-y-1/3 rounded-full bg-tertiary/5 blur-[120px]" />
 
       {/* Header */}
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
@@ -228,7 +228,7 @@ export function InstalledOverview() {
 
           {/* System status */}
           <div className="group relative flex flex-col gap-2 overflow-hidden rounded-xl bg-[#020617] p-4 font-mono text-[13px]">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             <div className="flex items-center justify-between text-on-surface-variant">
               <span>Review Engine</span>
               <span className="text-secondary">v2.4.1-stable</span>
