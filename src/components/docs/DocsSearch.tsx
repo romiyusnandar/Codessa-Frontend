@@ -1,19 +1,25 @@
 "use client";
-
+ 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { Icon } from "@/components/Icon";
 import { docsSearchIndex } from "@/components/docs/docsSearchIndex";
-
+import { docsSearchIndex as docsSearchIndexId } from "@/components/docs/docsSearchIndex.id";
+ 
 export function DocsSearch() {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const locale = useLocale();
 
+  const index = locale === "id" ? docsSearchIndexId : docsSearchIndex;
+  const withLocale = (path: string) => `/${locale}${path}`;
+  
   const q = query.trim().toLowerCase();
   const results =
     q.length > 0
-      ? docsSearchIndex
+      ? index
           .filter(
             (entry) =>
               entry.title.toLowerCase().includes(q) ||
@@ -22,7 +28,7 @@ export function DocsSearch() {
           )
           .slice(0, 8)
       : [];
-
+ 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -32,12 +38,12 @@ export function DocsSearch() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+ 
   function close() {
     setQuery("");
     setOpen(false);
   }
-
+ 
   return (
     <div ref={containerRef} className="relative">
       <Icon
@@ -70,7 +76,7 @@ export function DocsSearch() {
           <Icon name="close" className="text-lg" />
         </button>
       )}
-
+ 
       {open && q.length > 0 && (
         <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-30 max-h-80 overflow-y-auto rounded-lg border border-outline-variant/20 bg-surface-container-lowest p-1.5 shadow-lg">
           {results.length === 0 ? (
@@ -81,7 +87,7 @@ export function DocsSearch() {
             results.map((entry) => (
               <Link
                 key={entry.href}
-                href={entry.href}
+                href={withLocale(entry.href)}
                 onClick={close}
                 className="block rounded-md px-3 py-2 transition-colors hover:bg-surface-container"
               >

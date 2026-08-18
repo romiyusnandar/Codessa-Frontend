@@ -1,0 +1,306 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Saved!",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "logout": "Logout"
+  },
+  "metadata": {
+    "title": "Codessa — AI Pull Request Reviews",
+    "description": "Codessa automatically reviews your GitHub pull requests using AI."
+  },
+  "nav": {
+    "docs": "Docs",
+    "dashboard": "Dashboard",
+    "features": "Features",
+    "signUp": "Sign up",
+    "history": "History",
+    "integrations": "Integrations",
+    "settings": "Settings"
+  },
+  "landing": {
+    "hero": {
+      "version": "Codessa V2.0 Now Available",
+      "title": "AI-Powered PR Reviews",
+      "titleHighlight": "for GitHub",
+      "subtitle": "Automate your code reviews with intelligent insights and seamless GitHub integration. Ship faster, with absolute confidence.",
+      "startFree": "Start for free",
+      "supportedLanguages": "Supports the languages your team ships"
+    },
+    "features": {
+      "title": "Why Codessa?",
+      "subtitle": "Engineered to integrate seamlessly into your workflow, providing deep context without the noise.",
+      "automatedReviews": {
+        "title": "Automated Reviews",
+        "description": "Catch bugs, security vulnerabilities, and anti-patterns before they merge. Our AI understands your entire repository context, not just the diff."
+      },
+      "customRules": {
+        "title": "Custom Rules",
+        "description": "Enforce your specific team conventions. Write custom prompt directives tailored to your architecture."
+      },
+      "aiInsight": {
+        "title": "AI Insight",
+        "description": "Beyond simple linting, get architectural suggestions and performance optimization strategies directly in the PR comments."
+      },
+      "fastIntegration": {
+        "title": "Fast Integration",
+        "description": "Install the GitHub App in two clicks. No complex CI/CD pipeline modifications required to get started."
+      }
+    },
+    "demo": {
+      "filesChanged": "Files changed",
+      "prTitle": "feat: implement robust rate limiting",
+      "aiAnalyzed": "AI Analyzed",
+      "securityInsight": "Security Insight: The implementation uses a predictable hashing algorithm. Consider upgrading to Argon2 for production credentials.",
+      "applyFix": "Apply Fix",
+      "ignore": "Ignore"
+    },
+    "footer": {
+      "copyright": "© 2026 Codessa AI. Built for precision."
+    }
+  },
+  "dashboard": {
+    "overview": {
+      "title": "Overview",
+      "subtitle": "Real-time analysis of your connected repositories.",
+      "syncNow": "Sync Now",
+      "syncing": "Syncing...",
+      "newRepo": "New Repo",
+      "totalPRs": "Total Pull Requests Analyzed",
+      "aiComments": "AI Comments Generated",
+      "totalTime": "Total Review Time",
+      "lastPRs": "Last Pull Requests",
+      "viewAll": "View All",
+      "noReviews": "No reviews yet.",
+      "repositories": "Repositories",
+      "noRepos": "No repositories enabled.",
+      "manageConnections": "Manage Connections",
+      "enabled": "Enabled",
+      "previewPdf": "Preview & export as PDF",
+      "dependencyScan": "Dependency Scan",
+      "aiReview": "AI Review",
+      "loading": "Loading..."
+    },
+    "notInstalled": {
+      "title": "Connect your first repository to start automating.",
+      "subtitle": "Integrate Codessa with your GitHub workflow in seconds. Our AI will automatically start reviewing your PRs for bugs, security, and style.",
+      "installApp": "Install GitHub App",
+      "viewDocs": "View Documentation",
+      "howItWorks": "How it works",
+      "step1": {
+        "title": "Install App",
+        "body": "Authorize Codessa in your GitHub account."
+      },
+      "step2": {
+        "title": "Select Repositories",
+        "body": "Choose which projects AI should monitor."
+      },
+      "step3": {
+        "title": "Receive AI Reviews",
+        "body": "Get automated PR feedback instantly."
+      }
+    },
+    "history": {
+      "title": "Review History",
+      "subtitle": "Every pull request Codessa has reviewed, across all your connected repositories.",
+      "filterPlaceholder": "Filter by repo (owner/name)...",
+      "noReviews": "No reviews yet.",
+      "noReviewsFilter": "No reviews for \"{repo}\".",
+      "page": "Page {current} of {total}",
+      "prev": "Prev",
+      "next": "Next"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Manage your account and how Codessa writes its reviews.",
+      "githubId": "GitHub ID",
+      "connected": "Connected",
+      "needsReauth": "Needs reauthorization",
+      "logoutDesc": "Sign out of your Codessa account on this device.",
+      "logout": "Logout",
+      "review": {
+        "label": "Review",
+        "title": "Review preferences",
+        "subtitle": "Controls how Codessa writes its reviews. Applies to the next pull request reviewed.",
+        "language": "Review output language",
+        "tone": "Tone",
+        "customInstructions": "Custom instructions",
+        "instructionsPlaceholder": "e.g. Always provide a code snippet showing the fix for every bug found."
+      },
+      "tones": {
+        "friendly": "Friendly",
+        "strict": "Strict",
+        "concise": "Concise"
+      },
+      "account": {
+        "title": "Account",
+        "signOutDesc": "Sign out of your Codessa account on this device."
+      }
+    },
+    "integrations": {
+      "title": "Integrations",
+      "subtitle": "Manage repository connections and configure review settings.",
+      "manageConnections": "Manage Connections",
+      "connectRepo": "Connect Repository",
+      "searchPlaceholder": "Search repositories...",
+      "automate": "Automate",
+      "private": "Private",
+      "public": "Public",
+      "noRepos": "No repositories. Install GitHub App to add repositories.",
+      "noReposMatch": "No repositories match your search.",
+      "noReposEnabled": "No repositories enabled. Click Connect Repository to add one.",
+      "page": "Page {current} of {total} ({totalRepos} total)",
+      "prev": "Prev",
+      "next": "Next",
+      "disconnect": "Disconnect"
+    }
+  },
+  "docs": {
+    "nav": {
+      "gettingStarted": "Getting Started",
+      "introduction": "Introduction",
+      "quickstartGuide": "Quickstart Guide",
+      "configurationHierarchy": "Configuration Hierarchy"
+    },
+    "introduction": {
+      "breadcrumb": "getting-started",
+      "title": "Introduction to Codessa",
+      "description": "Codessa acts as an intelligent layer between your repository and your developers. By automatically analyzing Pull Requests, it identifies structural flaws, style violations, and potential bugs before a human reviewer even looks at the code.",
+      "howItWorks": {
+        "title": "How It Works",
+        "description": "Our engine doesn't just look at line-level syntax; it builds a localized semantic graph of your changes to understand how modifications impact surrounding files and architectural patterns.",
+        "step1": {
+          "title": "1. Push Code",
+          "body": "Developer pushes a commit and opens a Pull Request in GitHub."
+        },
+        "step2": {
+          "title": "2. AI Analysis",
+          "body": "Codessa intercepts the webhook, fetching diffs and context for analysis."
+        },
+        "step3": {
+          "title": "3. Feedback",
+          "body": "Actionable comments and suggested fixes are posted directly to the PR."
+        }
+      },
+      "languages": {
+        "title": "Supported languages",
+        "codeTitle": "Code Codessa reviews",
+        "codeDesc": "Programming languages Codessa understands well enough to analyze.",
+        "outputTitle": "Review output language",
+        "outputDesc": "The language Codessa writes review comments in — separate from the code language above.",
+        "configDesc": {
+          "code": "Set with the",
+          "field": "field in",
+          "or": ", or from the account's",
+          "settings": "Settings",
+          "following": "page — following the same",
+          "as": "as every other setting."
+        }
+      },
+      "ready": {
+        "title": "Ready to set it up?",
+        "description": "The Quickstart Guide walks through signing in, installing the app, and configuring review settings.",
+        "button": "Quickstart"
+      }
+    },
+    "quickstart": {
+      "breadcrumb": "quickstart-guide",
+      "title": "Quickstart Guide",
+      "description": "Getting Codessa running takes a few minutes: sign in, install the GitHub App, enable AI review, then add a config file to tune how it reviews each repository.",
+      "setup": {
+        "title": "Get connected",
+        "step1": {
+          "title": "Sign in using GitHub",
+          "body": "Open the Codessa homepage and click Sign up. You'll authorize access through GitHub OAuth — there's no new password to create."
+        },
+        "step2": {
+          "title": "Install the GitHub App",
+          "body": "From your dashboard, add a repository and install the Codessa GitHub App, choosing which account or organization and which repositories it can access."
+        },
+        "step3": {
+          "title": "Enable AI review on a repository",
+          "body": "AI review is off by default. Find the repository in Overview and toggle its status from Disabled to Enabled."
+        },
+        "enabled": "Enabled",
+        "enabledDesc": "Enabling is per repository — turn it on for some and leave others off. Once enabled, every new pull request is reviewed automatically."
+      },
+      "config": {
+        "title": "Configuration Setup",
+        "description": {
+          "prefix": "After enabling a repository, add a",
+          "suffix": "file to the root of that repository. This is where Codessa reads how strict to be, which language to write in, and what to focus on."
+        },
+        "pushDesc": "Push the file to your default branch and it takes effect on the next pull request — nothing is re-reviewed retroactively.",
+        "fields": {
+          "version": "Config schema version. Currently always \"1\".",
+          "auto_review": "When true, every new pull request is reviewed automatically.",
+          "language": "Language used for review comments: en, id, or zh.",
+          "tone": "Writing style of the review: friendly, strict, or concise.",
+          "review_rules_ignore_paths": "Glob patterns for files or folders Codessa should skip.",
+          "analysis_focus": "Turn security, performance, bugs, and code_style checks on or off individually.",
+          "severity_threshold": "How strict Codessa is about failing the commit status: critical_only, balanced, or strict.",
+          "custom_instructions": "Free-form extra instructions for the AI reviewer."
+        }
+      }
+    },
+    "configHierarchy": {
+      "breadcrumb": "configuration-hierarchy",
+      "title": "Configuration Hierarchy",
+      "description": {
+        "prefix": "A repository's review behavior can come from three places. Codessa checks them in order, field by field, so a",
+        "suffix": "file doesn't have to set everything to take effect."
+      },
+      "precedence": {
+        "title": "How precedence works",
+        "description": "For every individual setting — tone, severity threshold, each analysis focus flag — Codessa looks top to bottom until it finds a value.",
+        "fallback": "not set? fall back",
+        "tier1": {
+          "title": ".codessa.yml",
+          "subtitle": "Committed to the repository",
+          "desc": "Any field set here wins, no matter what the dashboard says. It lives with the code and travels with the branch, which makes it the most specific place to configure a repo.",
+          "badge": "Wins when set"
+        },
+        "tier2": {
+          "title": "Dashboard Settings",
+          "subtitle": "Set per repository in Codessa",
+          "desc": "Used for any field .codessa.yml leaves out. Handy for a quick baseline without maintaining a config file at all.",
+          "badge": "Fills the gaps"
+        },
+        "tier3": {
+          "title": "Built-in defaults",
+          "subtitle": "Shipped with Codessa",
+          "desc": "Used when a field isn't set in .codessa.yml or the dashboard. Every repository always ends up with a complete, working configuration.",
+          "badge": "Final fallback"
+        }
+      },
+      "example": {
+        "title": "Field-by-field example",
+        "description": {
+          "prefix": "Say a repository has a partial",
+          "suffix": "and some dashboard settings. Here's what actually gets used:"
+        },
+        "field": "Field",
+        "dashboard": "Dashboard",
+        "effective": "Effective",
+        "conclusion": {
+          "prefix": "This is why a",
+          "suffix": "file only needs to contain the fields you actually want to lock in — everything else still falls through to the dashboard, then to Codessa's defaults."
+        }
+      }
+    }
+  },
+  "errors": {
+    "loginFailed": "Login failed",
+    "failedToLoad": "Failed to load",
+    "failedToSave": "Failed to save settings.",
+    "failedToLoadLanguages": "Failed to load language list.",
+    "failedToLoadReviews": "Failed to load review history."
+  }
+}

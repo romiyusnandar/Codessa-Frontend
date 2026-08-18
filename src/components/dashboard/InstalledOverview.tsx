@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Icon } from "@/components/Icon";
 import { useRepositories, useReviews, useReviewStats } from "@/lib/hooks";
 import { ReviewOutcomeBadge } from "@/components/dashboard/ReviewOutcomeBadge";
@@ -17,11 +19,11 @@ function formatReviewTime(ms: number): string {
   return `${hours.toFixed(1)}h`;
 }
 
-// The system status card below is still placeholder content — everything
-// else on this page is wired to real data now.
 const REPOS_LIMIT = 5;
 
 export function InstalledOverview() {
+  const locale = useLocale();
+  const t = useTranslations("dashboard.overview");
   const [syncing, setSyncing] = useState(false);
   const [previewReview, setPreviewReview] = useState<Review | null>(null);
   const { stats, isLoading: statsLoading, mutate: mutateStats } = useReviewStats();
@@ -32,6 +34,8 @@ export function InstalledOverview() {
     mutate: mutateRepositories,
   } = useRepositories(1, REPOS_LIMIT, "", true);
   const enabledRepos = repositories?.data ?? [];
+
+  const withLocale = (path: string) => `/${locale}${path}`;
 
   async function handleSyncNow() {
     setSyncing(true);
@@ -51,10 +55,10 @@ export function InstalledOverview() {
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
         <div className="space-y-1">
           <h1 className="font-display text-[32px] font-semibold leading-tight text-on-surface">
-            Overview
+            {t("title")}
           </h1>
           <p className="text-base text-on-surface-variant">
-            Real-time analysis of your connected repositories.
+            {t("subtitle")}
           </p>
         </div>
         <div className="flex gap-4">
@@ -64,14 +68,14 @@ export function InstalledOverview() {
             className="flex items-center gap-2 rounded-lg bg-surface-container-high px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface shadow-sm transition-colors hover:bg-surface-container-highest disabled:opacity-60"
           >
             <Icon name="refresh" className={`text-[18px] ${syncing ? "animate-spin" : ""}`} />
-            {syncing ? "Syncing..." : "Sync Now"}
+            {syncing ? t("syncing") : t("syncNow")}
           </button>
           <Link
-            href="/dashboard/integrations"
+            href={withLocale("/dashboard/integrations")}
             className="flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-secondary shadow-md transition-colors hover:opacity-90"
           >
             <Icon name="add" className="text-[18px]" />
-            New Repo
+            {t("newRepo")}
           </Link>
         </div>
       </div>
@@ -89,7 +93,7 @@ export function InstalledOverview() {
             <h3 className="font-display text-[32px] font-semibold text-on-surface">
               {statsLoading ? "—" : (stats?.totalPullRequests ?? 0)}
             </h3>
-            <p className="text-sm text-on-surface-variant">Total Pull Requests Analyzed</p>
+            <p className="text-sm text-on-surface-variant">{t("totalPRs")}</p>
           </div>
         </div>
 
@@ -104,7 +108,7 @@ export function InstalledOverview() {
             <h3 className="font-display text-[32px] font-semibold text-on-surface">
               {statsLoading ? "—" : (stats?.totalComments ?? 0)}
             </h3>
-            <p className="text-sm text-on-surface-variant">AI Comments Generated</p>
+            <p className="text-sm text-on-surface-variant">{t("aiComments")}</p>
           </div>
         </div>
 
@@ -119,7 +123,7 @@ export function InstalledOverview() {
             <h3 className="font-display text-[32px] font-semibold text-on-surface">
               {statsLoading ? "—" : formatReviewTime(stats?.totalReviewTimeMs ?? 0)}
             </h3>
-            <p className="text-sm text-on-surface-variant">Total Review Time</p>
+            <p className="text-sm text-on-surface-variant">{t("totalTime")}</p>
           </div>
         </div>
       </div>
@@ -130,22 +134,22 @@ export function InstalledOverview() {
         <div className="flex flex-col gap-4 lg:col-span-2">
           <div className="flex items-center justify-between pb-1">
             <h2 className="font-display text-2xl font-semibold text-on-surface">
-              Last Pull Requests
+              {t("lastPRs")}
             </h2>
             <Link
-              href="/dashboard/history"
+              href={withLocale("/dashboard/history")}
               className="flex items-center text-[11px] font-semibold uppercase tracking-wider text-secondary transition-colors hover:opacity-80"
             >
-              View All
+              {t("viewAll")}
               <Icon name="arrow_forward" className="ml-1 text-[16px]" />
             </Link>
           </div>
 
-          {reviewsLoading && <p className="text-sm text-on-surface-variant">Loading...</p>}
+          {reviewsLoading && <p className="text-sm text-on-surface-variant">{t("loading")}</p>}
 
           {!reviewsLoading && (reviews?.length ?? 0) === 0 && (
             <div className="rounded-xl border border-dashed border-outline-variant/30 p-8 text-center">
-              <p className="text-sm text-on-surface-variant">Belum ada review.</p>
+              <p className="text-sm text-on-surface-variant">{t("noReviews")}</p>
             </div>
           )}
 
@@ -169,8 +173,6 @@ export function InstalledOverview() {
                       </h4>
                     </div>
                     <div className="flex flex-wrap items-center gap-3 text-sm text-on-surface-variant">
-                      {/* TODO: committer/author isn't in the API response yet — shown as
-                          repo instead until the backend adds one. */}
                       <span className="flex items-center gap-1">
                         <Icon name="folder" className="text-[14px]" />
                         {review.repositoryName}
@@ -191,8 +193,8 @@ export function InstalledOverview() {
                     <ReviewOutcomeBadge review={review} />
                     <button
                       onClick={() => setPreviewReview(review)}
-                      title="Preview & export as PDF"
-                      aria-label="Preview review as PDF"
+                      title={t("previewPdf")}
+                      aria-label={t("previewPdf")}
                       className="flex h-8 w-8 items-center justify-center rounded-full bg-error/10 text-error transition hover:bg-error/20"
                     >
                       <Icon name="picture_as_pdf" filled className="text-[18px]" />
@@ -207,16 +209,16 @@ export function InstalledOverview() {
         {/* Repositories + status */}
         <div className="flex flex-col gap-4">
           <h2 className="pb-1 font-display text-2xl font-semibold text-on-surface">
-            Repositories
+            {t("repositories")}
           </h2>
           <div className="flex flex-col overflow-hidden rounded-xl bg-surface-container shadow-sm">
             {reposLoading && (
-              <p className="p-4 text-sm text-on-surface-variant">Loading...</p>
+              <p className="p-4 text-sm text-on-surface-variant">{t("loading")}</p>
             )}
 
             {!reposLoading && enabledRepos.length === 0 && (
               <p className="p-4 text-sm text-on-surface-variant">
-                Belum ada repository yang diaktifkan.
+                {t("noRepos")}
               </p>
             )}
 
@@ -237,7 +239,7 @@ export function InstalledOverview() {
                     </div>
                     <span
                       className="h-2 w-2 rounded-full bg-primary shadow-[0_0_4px_rgba(190,198,224,0.6)]"
-                      title="Enabled"
+                      title={t("enabled")}
                     />
                   </div>
                   {i < enabledRepos.length - 1 && (
@@ -247,31 +249,14 @@ export function InstalledOverview() {
               ))}
             <div className="bg-surface-container-highest/50 p-1">
               <Link
-                href="/dashboard/integrations"
+                href={withLocale("/dashboard/integrations")}
                 className="flex w-full items-center justify-center gap-2 py-2 text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant transition-colors hover:text-on-surface"
               >
                 <Icon name="settings" className="text-[16px]" />
-                Manage Connections
+                {t("manageConnections")}
               </Link>
             </div>
           </div>
-
-          {/* System status */}
-          {/* <div className="group relative flex flex-col gap-2 overflow-hidden rounded-xl bg-[#020617] p-4 font-mono text-[13px]">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-            <div className="flex items-center justify-between text-on-surface-variant">
-              <span>Review Engine</span>
-              <span className="text-secondary">v2.4.1-stable</span>
-            </div>
-            <div className="flex items-center justify-between text-on-surface-variant">
-              <span>Latency</span>
-              <span className="text-primary">42ms</span>
-            </div>
-            <div className="flex items-center justify-between text-on-surface-variant">
-              <span>Context Window</span>
-              <span className="text-tertiary">128k</span>
-            </div>
-          </div> */}
         </div>
       </div>
 

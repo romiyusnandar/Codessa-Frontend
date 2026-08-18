@@ -1,32 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { installGithubApp } from "@/lib/api";
 import { Icon } from "@/components/Icon";
 import { GithubMark } from "@/components/GithubMark";
 
 const steps = [
-  {
-    n: "01",
-    color: "text-tertiary",
-    title: "Install App",
-    body: "Authorize Codessa in your GitHub account.",
-  },
-  {
-    n: "02",
-    color: "text-primary",
-    title: "Select Repositories",
-    body: "Choose which projects AI should monitor.",
-  },
-  {
-    n: "03",
-    color: "text-secondary",
-    title: "Receive AI Reviews",
-    body: "Get automated PR feedback instantly.",
-  },
+  { n: "01", color: "text-tertiary", icon: "cable" },
+  { n: "02", color: "text-primary", icon: "folder" },
+  { n: "03", color: "text-secondary", icon: "smart_toy" },
 ];
 
 export function NotInstalledHero() {
+  const locale = useLocale();
+  const t = useTranslations("dashboard.notInstalled");
+
+  const withLocale = (path: string) => `/${locale}${path}`;
+
   return (
     <div className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col items-center justify-center overflow-hidden bg-linear-to-br from-surface to-surface-container-low p-6 sm:p-10">
       <div className="pointer-events-none absolute right-0 top-0 h-125 w-125 -translate-y-1/3 translate-x-1/3 rounded-full bg-secondary-container/30 blur-[120px]" />
@@ -64,11 +56,10 @@ export function NotInstalledHero() {
           </div>
 
           <h1 className="max-w-2xl font-display text-[28px] font-semibold leading-9 tracking-tight text-on-surface sm:text-[32px] sm:leading-10">
-            Connect your first repository to start automating.
+            {t("title")}
           </h1>
           <p className="max-w-xl text-base leading-relaxed text-on-surface-variant sm:text-lg">
-            Integrate Codessa with your GitHub workflow in seconds. Our AI will automatically
-            start reviewing your PRs for bugs, security, and style.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -79,32 +70,30 @@ export function NotInstalledHero() {
           >
             <div className="absolute inset-0 translate-y-full bg-white/20 transition-transform duration-300 ease-out group-hover:translate-y-0" />
             <GithubMark className="relative z-10 h-5 w-5" />
-            <span className="relative z-10">Install GitHub App</span>
+            <span className="relative z-10">{t("installApp")}</span>
           </button>
           <Link
-            href="/docs"
+            href={withLocale("/docs")}
             className="flex items-center gap-2 rounded-xl border border-outline-variant/30 bg-surface-container px-6 py-3 text-sm text-on-surface transition-colors duration-300 hover:bg-surface-container-high"
           >
             <Icon name="menu_book" className="text-lg" />
-            View Documentation
+            {t("viewDocs")}
           </Link>
         </div>
 
         <div className="mt-4 w-full max-w-3xl rounded-2xl border border-outline-variant/30 bg-surface-container-lowest/80 p-8 shadow-sm backdrop-blur-md">
           <h3 className="mb-8 text-center text-sm uppercase tracking-widest text-on-surface opacity-80">
-            How it works
+            {t("howItWorks")}
           </h3>
           <div className="relative grid grid-cols-1 gap-8 md:grid-cols-3">
-            {/* Aligned to the vertical center of the h-12 number circles below,
-                not the whole column (which also includes title/body text). */}
             <div className="absolute left-[16%] right-[16%] top-6 hidden h-0.5 bg-linear-to-r from-surface-container-highest via-outline-variant/60 to-surface-container-highest md:block" />
-            {steps.map((step) => (
+            {steps.map((step, i) => (
               <div key={step.n} className="group relative z-10 flex flex-col items-center text-center">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-outline-variant/30 bg-surface-container-high shadow-sm transition-transform duration-300 group-hover:scale-110">
                   <span className={`font-mono text-sm ${step.color}`}>{step.n}</span>
                 </div>
-                <h4 className="mb-2 text-base font-medium text-on-surface">{step.title}</h4>
-                <p className="text-sm text-on-surface-variant">{step.body}</p>
+                <h4 className="mb-2 text-base font-medium text-on-surface">{t(`step${i + 1}.title`)}</h4>
+                <p className="text-sm text-on-surface-variant">{t(`step${i + 1}.body`)}</p>
               </div>
             ))}
           </div>

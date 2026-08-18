@@ -1,11 +1,12 @@
 "use client";
-
+ 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import { docsNav } from "@/components/docs/docsNavItems";
 import { DocsSearch } from "@/components/docs/DocsSearch";
 import { AskAssistantCard } from "@/components/docs/AskAssistantCard";
-
+ 
 // The nav list + search + "Ask Assistant" trigger, shared between the
 // persistent desktop sidebar and the mobile drawer (DocsNav renders both).
 export function DocsSidebarContent({
@@ -16,7 +17,10 @@ export function DocsSidebarContent({
   onAskAssistant: (rect: DOMRect) => void;
 }) {
   const pathname = usePathname();
+  const locale = useLocale();
 
+  const withLocale = (path: string) => `/${locale}${path}`;
+ 
   return (
     <>
       <div className="p-6 pb-2">
@@ -25,7 +29,7 @@ export function DocsSidebarContent({
         </h2>
         <DocsSearch />
       </div>
-
+ 
       <nav className="flex-1 space-y-6 px-4 py-4">
         {docsNav.map((section) => (
           <div key={section.title}>
@@ -43,11 +47,11 @@ export function DocsSidebarContent({
                     </li>
                   );
                 }
-                const active = item.href === pathname;
+                const active = withLocale(item.href) === pathname;
                 return (
                   <li key={item.label}>
                     <Link
-                      href={item.href}
+                      href={withLocale(item.href)}
                       onClick={onNavigate}
                       className={`block rounded-md px-2 py-1.5 text-base transition-colors ${
                         active
@@ -64,7 +68,7 @@ export function DocsSidebarContent({
           </div>
         ))}
       </nav>
-
+ 
       <div className="mt-auto border-t border-outline-variant/30 p-6">
         <AskAssistantCard onAsk={onAskAssistant} />
       </div>

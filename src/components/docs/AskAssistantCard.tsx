@@ -11,7 +11,7 @@ export function AskAssistantCard({ onAsk }: { onAsk: (rect: DOMRect) => void }) 
 
   return (
     <div className="flex items-center gap-3">
-      <Icon name="smart_toy" className="text-primary" />
+      {/* <Icon name="smart_toy" className="text-primary" />
       <div>
         <p className="text-base text-on-surface">Need help?</p>
         <button
@@ -24,7 +24,7 @@ export function AskAssistantCard({ onAsk }: { onAsk: (rect: DOMRect) => void }) 
         >
           Ask Assistant
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

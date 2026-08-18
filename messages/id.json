@@ -1,0 +1,306 @@
+{
+  "common": {
+    "loading": "Memuat...",
+    "error": "Kesalahan",
+    "save": "Simpan",
+    "saving": "Menyimpan...",
+    "saved": "Tersimpan!",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Ubah",
+    "view": "Lihat",
+    "close": "Tutup",
+    "logout": "Keluar"
+  },
+  "metadata": {
+    "title": "Codessa — Ulasan Pull Request AI",
+    "description": "Codessa secara otomatis mengulas pull request GitHub Anda menggunakan AI."
+  },
+  "nav": {
+    "docs": "Dokumentasi",
+    "dashboard": "Dashboard",
+    "features": "Fitur",
+    "signUp": "Daftar",
+    "history": "Riwayat",
+    "integrations": "Integrasi",
+    "settings": "Pengaturan"
+  },
+  "landing": {
+    "hero": {
+      "version": "Codessa V2.0 Kini Tersedia",
+      "title": "Ulasan PR Berbasis AI",
+      "titleHighlight": "untuk GitHub",
+      "subtitle": "Otomatisasi ulasan kode Anda dengan wawasan cerdas dan integrasi GitHub yang mulus. Kirim lebih cepat, dengan keyakinan penuh.",
+      "startFree": "Mulai gratis",
+      "supportedLanguages": "Mendukung bahasa yang digunakan tim Anda"
+    },
+    "features": {
+      "title": "Mengapa Codessa?",
+      "subtitle": "Dirancang untuk terintegrasi secara mulus ke dalam alur kerja Anda, memberikan konteks mendalam tanpa kebisingan.",
+      "automatedReviews": {
+        "title": "Ulasan Otomatis",
+        "description": "Tangkap bug, kerentanan keamanan, dan anti-pola sebelum digabungkan. AI kami memahami konteks seluruh repositori Anda, bukan hanya diff."
+      },
+      "customRules": {
+        "title": "Aturan Kustom",
+        "description": "Terapkan konvensi tim spesifik Anda. Tulis arahan prompt kustom yang disesuaikan dengan arsitektur Anda."
+      },
+      "aiInsight": {
+        "title": "Wawasan AI",
+        "description": "Melampaui linting sederhana, dapatkan saran arsitektur dan strategi optimasi kinerja langsung di komentar PR."
+      },
+      "fastIntegration": {
+        "title": "Integrasi Cepat",
+        "description": "Instal Aplikasi GitHub dalam dua klik. Tidak diperlukan modifikasi pipeline CI/CD yang kompleks untuk memulai."
+      }
+    },
+    "demo": {
+      "filesChanged": "File diubah",
+      "prTitle": "fitur: implementasi rate limiting yang kuat",
+      "aiAnalyzed": "Dianalisis AI",
+      "securityInsight": "Wawasan Keamanan: Implementasi ini menggunakan algoritma hashing yang dapat diprediksi. Pertimbangkan untuk meningkatkan ke Argon2 untuk kredensial produksi.",
+      "applyFix": "Terapkan Perbaikan",
+      "ignore": "Abaikan"
+    },
+    "footer": {
+      "copyright": "© 2026 Codessa AI. Dibuat dengan presisi."
+    }
+  },
+  "dashboard": {
+    "overview": {
+      "title": "Ikhtisar",
+      "subtitle": "Analisis real-time dari repositori terhubung Anda.",
+      "syncNow": "Sinkronkan",
+      "syncing": "Menyinkronkan...",
+      "newRepo": "Repo Baru",
+      "totalPRs": "Total Pull Request Dianalisis",
+      "aiComments": "Komentar AI Dihasilkan",
+      "totalTime": "Total Waktu Ulasan",
+      "lastPRs": "Pull Request Terakhir",
+      "viewAll": "Lihat Semua",
+      "noReviews": "Belum ada ulasan.",
+      "repositories": "Repositori",
+      "noRepos": "Belum ada repositori yang diaktifkan.",
+      "manageConnections": "Kelola Koneksi",
+      "enabled": "Diaktifkan",
+      "previewPdf": "Pratinjau & ekspor sebagai PDF",
+      "dependencyScan": "Scan Dependency",
+      "aiReview": "Ulasan AI",
+      "loading": "Memuat..."
+    },
+    "notInstalled": {
+      "title": "Hubungkan repositori pertama Anda untuk mulai mengotomatisakan.",
+      "subtitle": "Integrasikan Codessa dengan alur kerja GitHub Anda dalam hitungan detik. AI kami akan secara otomatis mulai mengulas PR Anda untuk bug, keamanan, dan gaya.",
+      "installApp": "Instal Aplikasi GitHub",
+      "viewDocs": "Lihat Dokumentasi",
+      "howItWorks": "Cara kerjanya",
+      "step1": {
+        "title": "Instal Aplikasi",
+        "body": "Otorisasi Codessa di akun GitHub Anda."
+      },
+      "step2": {
+        "title": "Pilih Repositori",
+        "body": "Pilih proyek mana yang harus dipantau AI."
+      },
+      "step3": {
+        "title": "Terima Ulasan AI",
+        "body": "Dapatkan umpan balik PR otomatis secara instan."
+      }
+    },
+    "history": {
+      "title": "Riwayat Ulasan",
+      "subtitle": "Setiap pull request yang telah diulas Codessa, di seluruh repositori terhubung Anda.",
+      "filterPlaceholder": "Filter berdasarkan repo (pemilik/nama)...",
+      "noReviews": "Belum ada ulasan.",
+      "noReviewsFilter": "Tidak ada ulasan untuk \"{repo}\".",
+      "page": "Halaman {current} dari {total}",
+      "prev": "Sebelumnya",
+      "next": "Berikutnya"
+    },
+    "settings": {
+      "title": "Pengaturan",
+      "subtitle": "Kelola akun Anda dan bagaimana Codessa menulis ulasannya.",
+      "githubId": "ID GitHub",
+      "connected": "Terhubung",
+      "needsReauth": "Perlu otorisasi ulang",
+      "logoutDesc": "Keluar dari akun Codessa Anda di perangkat ini.",
+      "logout": "Keluar",
+      "review": {
+        "label": "Ulasan",
+        "title": "Preferensi ulasan",
+        "subtitle": "Mengontrol bagaimana Codessa menulis ulasannya. Berlaku untuk pull request berikutnya yang diulas.",
+        "language": "Bahasa output ulasan",
+        "tone": "Nada",
+        "customInstructions": "Instruksi kustom",
+        "instructionsPlaceholder": "mis. Selalu berikan cuplikan kode yang menunjukkan perbaikan untuk setiap bug yang ditemukan."
+      },
+      "tones": {
+        "friendly": "Ramah",
+        "strict": "Tegas",
+        "concise": "Ringkas"
+      },
+      "account": {
+        "title": "Akun",
+        "signOutDesc": "Keluar dari akun Codessa Anda di perangkat ini."
+      }
+    },
+    "integrations": {
+      "title": "Integrasi",
+      "subtitle": "Kelola koneksi repositori dan konfigurasikan pengaturan ulasan.",
+      "manageConnections": "Kelola Koneksi",
+      "connectRepo": "Hubungkan Repositori",
+      "searchPlaceholder": "Cari repositori...",
+      "automate": "Otomatisasi",
+      "private": "Private",
+      "public": "Publik",
+      "noRepos": "Belum ada repository. Instal Aplikasi GitHub untuk menambahkan repository.",
+      "noReposMatch": "Tidak ada repository yang cocok dengan pencarian.",
+      "noReposEnabled": "Belum ada repository yang diaktifkan. Klik Hubungkan Repositori untuk menambahkan.",
+      "page": "Halaman {current} dari {total} ({totalRepos} total)",
+      "prev": "Sebelumnya",
+      "next": "Berikutnya",
+      "disconnect": "Putuskan Koneksi"
+    }
+  },
+  "docs": {
+    "nav": {
+      "gettingStarted": "Memulai",
+      "introduction": "Pengantar",
+      "quickstartGuide": "Panduan Cepat",
+      "configurationHierarchy": "Hierarki Konfigurasi"
+    },
+    "introduction": {
+      "breadcrumb": "memulai",
+      "title": "Pengantar Codessa",
+      "description": "Codessa berfungsi sebagai lapisan cerdas antara repositori dan pengembang Anda. Dengan menganalisis Pull Request secara otomatis, ia mengidentifikasi cacat struktural, pelanggaran gaya, dan bug potensial sebelum reviewer manusia melihat kodenya.",
+      "howItWorks": {
+        "title": "Cara Kerjanya",
+        "description": "Mesin kami tidak hanya melihat sintaks tingkat baris; ia membangun grafik semantik terlokalisasi dari perubahan Anda untuk memahami bagaimana modifikasi memengaruhi file sekitarnya dan pola arsitektur.",
+        "step1": {
+          "title": "1. Push Kode",
+          "body": "Pengembang melakukan push commit dan membuka Pull Request di GitHub."
+        },
+        "step2": {
+          "title": "2. Analisis AI",
+          "body": "Codessa mencegat webhook, mengambil diff dan konteks untuk dianalisis."
+        },
+        "step3": {
+          "title": "3. Umpan Balik",
+          "body": "Komentar yang dapat ditindaklanjuti dan perbaikan yang disarankan diposting langsung ke PR."
+        }
+      },
+      "languages": {
+        "title": "Bahasa yang Didukung",
+        "codeTitle": "Kode yang diulas Codessa",
+        "codeDesc": "Bahasa pemrograman yang dipahami Codessa dengan cukup baik untuk dianalisis.",
+        "outputTitle": "Bahasa output ulasan",
+        "outputDesc": "Bahasa yang digunakan Codessa untuk menulis komentar ulasan — terpisah dari bahasa kode di atas.",
+        "configDesc": {
+          "code": "Atur dengan field",
+          "field": "di",
+          "or": ", atau dari halaman",
+          "settings": "Pengaturan",
+          "following": "akun — mengikuti yang sama seperti setiap pengaturan lainnya.",
+          "as": ""
+        }
+      },
+      "ready": {
+        "title": "Siap mengaturnya?",
+        "description": "Panduan Cepat memandu Anda melalui proses masuk, menginstal aplikasi, dan mengonfigurasi pengaturan ulasan.",
+        "button": "Mulai Cepat"
+      }
+    },
+    "quickstart": {
+      "breadcrumb": "panduan-cepat",
+      "title": "Panduan Cepat",
+      "description": "Menjalankan Codessa hanya membutuhkan beberapa menit: masuk, instal Aplikasi GitHub, aktifkan ulasan AI, lalu tambahkan file konfigurasi untuk mengatur bagaimana ia mengulas setiap repositori.",
+      "setup": {
+        "title": "Hubungkan",
+        "step1": {
+          "title": "Masuk menggunakan GitHub",
+          "body": "Buka halaman utama Codessa dan klik Daftar. Anda akan mengotorisasi akses melalui GitHub OAuth — tidak ada kata sandi baru yang perlu dibuat."
+        },
+        "step2": {
+          "title": "Instal Aplikasi GitHub",
+          "body": "Dari dashboard Anda, tambahkan repositori dan instal Aplikasi GitHub Codessa, memilih akun atau organisasi dan repositori mana yang dapat diaksesnya."
+        },
+        "step3": {
+          "title": "Aktifkan ulasan AI di repositori",
+          "body": "Ulasan AI mati secara default. Temukan repositori di Ikhtisar dan alihkan statusnya dari Dinonaktifkan ke Diaktifkan."
+        },
+        "enabled": "Diaktifkan",
+        "enabledDesc": "Pengaktifan per repositori — aktifkan untuk beberapa dan biarkan yang lain mati. Setelah diaktifkan, setiap pull request baru diulas secara otomatis."
+      },
+      "config": {
+        "title": "Pengaturan Konfigurasi",
+        "description": {
+          "prefix": "Setelah mengaktifkan repositori, tambahkan file",
+          "suffix": "ke root repositori tersebut. Di sinilah Codessa membaca seberapa ketat harusnya, bahasa apa yang digunakan, dan apa yang harus difokuskan."
+        },
+        "pushDesc": "Push file ke branch default Anda dan file tersebut akan berlaku pada pull request berikutnya — tidak ada yang diulas ulang secara retroaktif.",
+        "fields": {
+          "version": "Versi skema konfigurasi. Saat ini selalu \"1\".",
+          "auto_review": "Jika true, setiap pull request baru diulas secara otomatis.",
+          "language": "Bahasa yang digunakan untuk komentar ulasan: en, id, atau zh.",
+          "tone": "Gaya penulisan ulasan: friendly, strict, atau concise.",
+          "review_rules_ignore_paths": "Pola glob untuk file atau folder yang harus dilewati Codessa.",
+          "analysis_focus": "Aktifkan atau nonaktifkan pemeriksaan security, performance, bugs, dan code_style secara individual.",
+          "severity_threshold": "Seberapa ketat Codessa dalam menggagalkan status commit: critical_only, balanced, atau strict.",
+          "custom_instructions": "Instruksi ekstra bebas bentuk untuk AI reviewer."
+        }
+      }
+    },
+    "configHierarchy": {
+      "breadcrumb": "hierarki-konfigurasi",
+      "title": "Hierarki Konfigurasi",
+      "description": {
+        "prefix": "Perilaku ulasan repositori dapat berasal dari tiga tempat. Codessa memeriksanya secara berurutan, field per field, sehingga file",
+        "suffix": "tidak harus mengatur semuanya untuk berlaku."
+      },
+      "precedence": {
+        "title": "Cara kerja prioritas",
+        "description": "Untuk setiap pengaturan individual — nada, ambang batas keparahan, setiap flag fokus analisis — Codessa melihat dari atas ke bawah hingga menemukan nilai.",
+        "fallback": "tidak diatur? gunakan fallback",
+        "tier1": {
+          "title": ".codessa.yml",
+          "subtitle": "Dikomit ke repositori",
+          "desc": "Setiap field yang diatur di sini menang, tidak peduli apa yang dikatakan dashboard. File ini hidup bersama kode dan berpindah bersama branch, yang menjadikannya tempat paling spesifik untuk mengonfigurasi repo.",
+          "badge": "Menang jika diatur"
+        },
+        "tier2": {
+          "title": "Pengaturan Dashboard",
+          "subtitle": "Diatur per repositori di Codessa",
+          "desc": "Digunakan untuk field yang ditinggalkan oleh .codessa.yml. Berguna untuk baseline cepat tanpa memelihara file konfigurasi sama sekali.",
+          "badge": "Mengisi kekosongan"
+        },
+        "tier3": {
+          "title": "Default bawaan",
+          "subtitle": "Dikirim dengan Codessa",
+          "desc": "Digunakan ketika field tidak diatur di .codessa.yml atau dashboard. Setiap repositori selalu mendapatkan konfigurasi lengkap yang berfungsi.",
+          "badge": "Fallback terakhir"
+        }
+      },
+      "example": {
+        "title": "Contoh field-per-field",
+        "description": {
+          "prefix": "Katakanlah repositori memiliki",
+          "suffix": "parsial dan beberapa pengaturan dashboard. Berikut yang sebenarnya digunakan:"
+        },
+        "field": "Field",
+        "dashboard": "Dashboard",
+        "effective": "Efektif",
+        "conclusion": {
+          "prefix": "Inilah mengapa file",
+          "suffix": "hanya perlu berisi field yang benar-benar ingin Anda kunci — yang lainnya masih jatuh ke dashboard, lalu ke default Codessa."
+        }
+      }
+    }
+  },
+  "errors": {
+    "loginFailed": "Login gagal",
+    "failedToLoad": "Gagal memuat",
+    "failedToSave": "Gagal menyimpan pengaturan.",
+    "failedToLoadLanguages": "Gagal memuat daftar bahasa.",
+    "failedToLoadReviews": "Gagal memuat riwayat ulasan."
+  }
+}

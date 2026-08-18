@@ -1,0 +1,92 @@
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.20.80.1:3000
+- Environments: .env.local
+✓ Ready in 951ms
+
+○ Compiling /[locale]/dashboard ...
+ GET /id/dashboard 200 in 10.5s (next.js: 9.4s, proxy.ts: 117ms, generate-params: 1362ms, application-code: 904ms)
+ GET /id/dashboard/history 200 in 2.2s (next.js: 2.1s, proxy.ts: 11ms, generate-params: 899ms, application-code: 113ms)
+ GET /id/docs 200 in 4.1s (next.js: 3.9s, proxy.ts: 8ms, generate-params: 1097ms, application-code: 240ms)
+ GET /en/dashboard 200 in 142ms (next.js: 23ms, proxy.ts: 9ms, generate-params: 10ms, application-code: 111ms)
+ GET /en/dashboard 200 in 455ms (next.js: 36ms, proxy.ts: 18ms, generate-params: 16ms, application-code: 402ms)
+ GET /en/dashboard 200 in 189ms (next.js: 33ms, proxy.ts: 21ms, generate-params: 15ms, application-code: 136ms)
+✓ Compiled in 200ms
+ GET /en/dashboard 200 in 1021ms (next.js: 237ms, proxy.ts: 172ms, generate-params: 11ms, application-code: 612ms)
+ GET /en/dashboard 200 in 401ms (next.js: 25ms, proxy.ts: 13ms, generate-params: 60µs, application-code: 363ms)
+ GET /en/dashboard 200 in 290ms (next.js: 47ms, proxy.ts: 19ms, generate-params: 98µs, application-code: 225ms)
+ GET /en/dashboard 200 in 286ms (next.js: 140ms, proxy.ts: 17ms, generate-params: 103µs, application-code: 129ms)
+✓ Compiled in 190ms
+ GET /en/dashboard 200 in 897ms (next.js: 272ms, proxy.ts: 54ms, generate-params: 14ms, application-code: 571ms)
+ GET /en/dashboard 200 in 391ms (next.js: 28ms, proxy.ts: 14ms, generate-params: 133µs, application-code: 348ms)
+ GET /en/dashboard 200 in 269ms (next.js: 45ms, proxy.ts: 17ms, generate-params: 78µs, application-code: 207ms)
+ GET /en/dashboard 200 in 266ms (next.js: 126ms, proxy.ts: 18ms, generate-params: 74µs, application-code: 122ms)
+ GET /en/dashboard 200 in 276ms (next.js: 26ms, proxy.ts: 11ms, generate-params: 12ms, application-code: 239ms)
+ GET /id/dashboard 200 in 162ms (next.js: 23ms, proxy.ts: 14ms, generate-params: 10ms, application-code: 125ms)
+✓ Compiled in 315ms
+ GET /id/dashboard 200 in 337ms (next.js: 141ms, proxy.ts: 28ms, generate-params: 7ms, application-code: 168ms)
+✓ Compiled in 124ms
+ GET /id/dashboard 200 in 394ms (next.js: 174ms, proxy.ts: 30ms, generate-params: 14ms, application-code: 190ms)
+✓ Compiled in 154ms
+ GET /id/dashboard 200 in 350ms (next.js: 197ms, proxy.ts: 34ms, generate-params: 11ms, application-code: 118ms)
+✓ Compiled in 118ms
+ GET /id/dashboard 200 in 396ms (next.js: 279ms, proxy.ts: 23ms, generate-params: 12ms, application-code: 94ms)
+✓ Compiled in 95ms
+ GET /id/dashboard 200 in 252ms (next.js: 145ms, proxy.ts: 33ms, generate-params: 8ms, application-code: 74ms)
+✓ Compiled in 231ms
+○ Compiling /_error ...
+ GET /id/dashboard 500 in 3.6s (next.js: 3.3s, proxy.ts: 20ms, application-code: 220ms)
+ GET /id/dashboard 200 in 662ms (next.js: 194ms, proxy.ts: 112ms, generate-params: 12ms, application-code: 356ms)
+ GET /id/dashboard 200 in 729ms (next.js: 283ms, proxy.ts: 8ms, generate-params: 41µs, application-code: 437ms)
+✓ Compiled in 133ms
+ GET /id/dashboard 200 in 394ms (next.js: 204ms, proxy.ts: 28ms, generate-params: 10ms, application-code: 162ms)
+✓ Compiled in 121ms
+ GET /id/dashboard 200 in 308ms (next.js: 162ms, proxy.ts: 26ms, generate-params: 11ms, application-code: 120ms)
+✓ Compiled in 117ms
+ GET /id/dashboard 200 in 341ms (next.js: 155ms, proxy.ts: 26ms, generate-params: 12ms, application-code: 160ms)
+✓ Compiled in 148ms
+ GET /id/dashboard 200 in 289ms (next.js: 170ms, proxy.ts: 25ms, generate-params: 10ms, application-code: 93ms)
+ GET /id/docs 200 in 547ms (next.js: 156ms, proxy.ts: 11ms, generate-params: 9ms, application-code: 380ms)
+✓ Compiled in 160ms
+ GET /id/docs 500 in 257ms (next.js: 116ms, proxy.ts: 107ms, application-code: 34ms)
+ GET /id/docs 500 in 62ms (next.js: 35ms, proxy.ts: 7ms, application-code: 20ms)
+✓ Compiled in 87ms
+ GET /id/docs 500 in 923ms (next.js: 229ms, proxy.ts: 17ms, generate-params: 16ms, application-code: 678ms)
+✓ Compiled in 133ms
+ GET /id/docs 500 in 181ms (next.js: 110ms, proxy.ts: 51ms, application-code: 20ms)
+ GET /id/docs 500 in 140ms (next.js: 78ms, proxy.ts: 43ms, application-code: 19ms)
+ GET /id/docs 500 in 496ms (next.js: 362ms, proxy.ts: 73ms, application-code: 62ms)
+ GET /id/docs 500 in 154ms (next.js: 91ms, proxy.ts: 40ms, application-code: 24ms)
+ GET /id/docs 500 in 120ms (next.js: 64ms, proxy.ts: 37ms, application-code: 20ms)
+✓ Compiled in 86ms
+ GET /id/docs 200 in 827ms (next.js: 376ms, proxy.ts: 18ms, generate-params: 10ms, application-code: 433ms)
+ GET /id/docs/quickstart-guide 200 in 2.3s (next.js: 2.2s, proxy.ts: 5ms, generate-params: 928ms, application-code: 60ms)
+ GET /id/docs/configuration-hierarchy 200 in 1906ms (next.js: 1844ms, proxy.ts: 6ms, generate-params: 901ms, application-code: 55ms)
+✓ Compiled in 86ms
+ GET /id/docs/configuration-hierarchy 200 in 509ms (next.js: 139ms, proxy.ts: 34ms, generate-params: 9ms, application-code: 336ms)
+ GET /id/docs/configuration-hierarchy 200 in 248ms (next.js: 24ms, proxy.ts: 6ms, generate-params: 45µs, application-code: 218ms)
+ GET /id/docs/configuration-hierarchy 200 in 162ms (next.js: 31ms, proxy.ts: 8ms, generate-params: 54µs, application-code: 123ms)
+✓ Compiled in 119ms
+ GET /id/docs/configuration-hierarchy 200 in 730ms (next.js: 248ms, proxy.ts: 32ms, generate-params: 17ms, application-code: 450ms)
+ GET /id/docs/configuration-hierarchy 200 in 323ms (next.js: 67ms, proxy.ts: 19ms, generate-params: 67µs, application-code: 237ms)
+ GET /id/docs/configuration-hierarchy 200 in 103ms (next.js: 22ms, proxy.ts: 8ms, generate-params: 30µs, application-code: 72ms)
+✓ Compiled in 76ms
+ GET /id/docs/configuration-hierarchy 200 in 450ms (next.js: 151ms, proxy.ts: 25ms, generate-params: 9ms, application-code: 274ms)
+ GET /id/docs/configuration-hierarchy 200 in 192ms (next.js: 22ms, proxy.ts: 7ms, generate-params: 50µs, application-code: 163ms)
+ GET /id/docs/configuration-hierarchy 200 in 109ms (next.js: 19ms, proxy.ts: 6ms, generate-params: 32µs, application-code: 84ms)
+ GET /id/docs/configuration-hierarchy 200 in 482ms (next.js: 33ms, proxy.ts: 5ms, generate-params: 10ms, application-code: 444ms)
+ GET /id/docs/configuration-hierarchy 200 in 418ms (next.js: 37ms, proxy.ts: 16ms, generate-params: 13ms, application-code: 365ms)
+ GET /id/docs/configuration-hierarchy 200 in 243ms (next.js: 27ms, proxy.ts: 11ms, generate-params: 10ms, application-code: 206ms)
+✓ Compiled in 168ms
+ GET /id/docs/configuration-hierarchy 200 in 1366ms (next.js: 329ms, proxy.ts: 16ms, generate-params: 11ms, application-code: 1021ms)
+ GET /id/docs/configuration-hierarchy 200 in 886ms (next.js: 35ms, proxy.ts: 36ms, generate-params: 43µs, application-code: 815ms)
+ GET /id/docs/configuration-hierarchy 200 in 724ms (next.js: 91ms, proxy.ts: 24ms, generate-params: 67µs, application-code: 609ms)
+ GET /id/docs/configuration-hierarchy 200 in 721ms (next.js: 270ms, proxy.ts: 25ms, generate-params: 68µs, application-code: 426ms)
+ GET /id/docs/configuration-hierarchy 200 in 717ms (next.js: 449ms, proxy.ts: 30ms, generate-params: 89µs, application-code: 238ms)
+ GET /id/docs/configuration-hierarchy 200 in 732ms (next.js: 561ms, proxy.ts: 25ms, generate-params: 58µs, application-code: 146ms)
+ GET /id/docs/configuration-hierarchy 200 in 3.0s (next.js: 1298ms, proxy.ts: 12ms, generate-params: 12ms, application-code: 1682ms)
+ GET /id/docs/configuration-hierarchy 200 in 1455ms (next.js: 341ms, proxy.ts: 465ms, generate-params: 40µs, application-code: 650ms)
+ GET /id/docs/configuration-hierarchy 200 in 506ms (next.js: 58ms, proxy.ts: 21ms, generate-params: 34µs, application-code: 428ms)
+ GET /id/docs/configuration-hierarchy 200 in 499ms (next.js: 275ms, proxy.ts: 21ms, generate-params: 37µs, application-code: 202ms)
+ GET /id/docs/configuration-hierarchy 200 in 505ms (next.js: 154ms, proxy.ts: 20ms, generate-params: 64µs, application-code: 332ms)
+ GET /id/docs/configuration-hierarchy 200 in 501ms (next.js: 361ms, proxy.ts: 25ms, generate-params: 45µs, application-code: 115ms)

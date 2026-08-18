@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { installGithubApp, setRepositoryEnabled } from "@/lib/api";
 import { revalidateRepositories, useRepositories } from "@/lib/hooks";
 import { Icon } from "@/components/Icon";
@@ -9,17 +11,17 @@ import { ConnectRepositoryModal } from "@/components/dashboard/ConnectRepository
 const PER_PAGE = 10;
 
 export function IntegrationsView() {
+  const locale = useLocale();
+  const t = useTranslations("dashboard.integrations");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [togglingRepo, setTogglingRepo] = useState<string | null>(null);
   const [showConnectModal, setShowConnectModal] = useState(false);
 
-  // Only enabled repos show on this page — browsing/enabling the rest
-  // happens in the "Connect Repository" modal.
+  const withLocale = (path: string) => `/${locale}${path}`;
+
   const { repositories, isLoading, error } = useRepositories(page, PER_PAGE, search, true);
 
-  // Independent of the list above, so the button knows whether to kick off
-  // the GitHub OAuth install flow or just open the repo picker.
   const { repositories: installCheck, isLoading: isCheckingInstall } = useRepositories(1, 1, "");
   const hasInstalled = (installCheck?.total ?? 0) > 0;
 
@@ -44,7 +46,6 @@ export function IntegrationsView() {
 
   return (
     <div className="relative">
-      {/* subtle grid texture */}
       <div
         className="pointer-events-none fixed inset-0 -z-10 text-on-surface opacity-[0.03]"
         style={{
@@ -59,10 +60,10 @@ export function IntegrationsView() {
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div className="flex flex-col gap-1">
             <h1 className="font-display text-[32px] font-semibold leading-tight tracking-tight text-on-surface">
-              Manage Connections
+              {t("title")}
             </h1>
             <p className="max-w-2xl text-sm text-on-surface-variant">
-              Repositories with AI review turned on. Connect more from your GitHub account below.
+              {t("subtitle")}
             </p>
           </div>
           <button
@@ -74,7 +75,7 @@ export function IntegrationsView() {
               name="add"
               className="text-[18px] transition-transform duration-300 group-hover:rotate-90"
             />
-            Connect Repository
+            {t("connectRepo")}
           </button>
         </div>
 
@@ -91,23 +92,23 @@ export function IntegrationsView() {
               setSearch(e.target.value);
               setPage(1);
             }}
-            placeholder="Search repositories..."
+            placeholder={t("searchPlaceholder")}
             className="w-full rounded-lg border border-outline-variant/30 bg-surface-container-highest py-3 pl-12 pr-4 text-sm text-on-surface shadow-inner placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-secondary"
           />
         </div>
 
         {/* Repo list */}
-        {error && <p className="text-sm text-error">Gagal memuat repositories.</p>}
-        {isLoading && <p className="text-sm text-on-surface-variant">Loading...</p>}
+        {error && <p className="text-sm text-error">{t("failedToLoad")}</p>}
+        {isLoading && <p className="text-sm text-on-surface-variant">{t("loading")}</p>}
 
         {repositories && repositories.data.length === 0 && (
           <div className="rounded-xl border border-dashed border-outline-variant/30 p-8 text-center">
             <p className="text-sm text-on-surface-variant">
               {!isCheckingInstall && !hasInstalled
-                ? "Belum ada repository. Install GitHub App untuk menambahkan repository."
+                ? t("noRepos")
                 : search
-                  ? "Tidak ada repository yang cocok dengan pencarian."
-                  : "Belum ada repository yang diaktifkan. Klik Connect Repository untuk menambahkan."}
+                  ? t("noReposMatch")
+                  : t("noReposEnabled")}
             </p>
           </div>
         )}
@@ -137,7 +138,7 @@ export function IntegrationsView() {
                         </h3>
                         <span className="flex shrink-0 items-center gap-1 rounded bg-surface-bright px-2 py-0.5 text-[10px] text-on-surface-variant shadow-sm">
                           <Icon name={repo.private ? "lock" : "public"} className="text-[14px]" />
-                          {repo.private ? "Private" : "Public"}
+                          {repo.private ? t("private") : t("public")}
                         </span>
                       </div>
                       <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-on-surface-variant">
@@ -152,7 +153,7 @@ export function IntegrationsView() {
                   <div className="flex w-full shrink-0 items-center justify-between gap-6 border-t border-outline-variant/10 pt-4 md:w-auto md:justify-end md:border-none md:pt-0">
                     <div className="flex items-center gap-3">
                       <span className="text-[11px] font-semibold uppercase tracking-wide text-on-surface-variant">
-                        Automate
+                        {t("automate")}
                       </span>
                       <label className="relative inline-flex cursor-pointer items-center">
                         <input
@@ -168,7 +169,8 @@ export function IntegrationsView() {
                     <button
                       onClick={() => toggleRepo(repo.owner, repo.name, false)}
                       disabled={togglingRepo === key}
-                      title="Disconnect Repository"
+                      title={t("disconnect")}
+                      aria-label={t("disconnect")}
                       className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-container-highest text-on-surface-variant shadow-sm transition-colors hover:bg-error/10 hover:text-error disabled:opacity-40"
                     >
                       <Icon name="link_off" className="text-[20px]" />
@@ -183,7 +185,7 @@ export function IntegrationsView() {
         {repositories && repositories.totalPages > 1 && (
           <div className="flex items-center justify-between text-xs text-on-surface-variant">
             <span>
-              Page {repositories.page} of {repositories.totalPages} ({repositories.total} total)
+              {t("page", { current: repositories.page, total: repositories.totalPages, totalRepos: repositories.total })}
             </span>
             <div className="flex gap-2">
               <button
@@ -191,14 +193,14 @@ export function IntegrationsView() {
                 disabled={page <= 1}
                 className="rounded-md border border-outline-variant/30 px-3 py-1 transition hover:border-outline disabled:opacity-40"
               >
-                Prev
+                {t("prev")}
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(repositories.totalPages, p + 1))}
                 disabled={page >= repositories.totalPages}
                 className="rounded-md border border-outline-variant/30 px-3 py-1 transition hover:border-outline disabled:opacity-40"
               >
-                Next
+                {t("next")}
               </button>
             </div>
           </div>

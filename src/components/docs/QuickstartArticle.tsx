@@ -1,6 +1,10 @@
+"use client";
+
 import { Icon } from "@/components/Icon";
 import { CodeBlock } from "@/components/docs/CodeBlock";
 import { PageFeedback } from "@/components/docs/PageFeedback";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 
 const configYaml = `version: "1"
 
@@ -37,42 +41,25 @@ custom_instructions: |
   - Always provide a code snippet showing the fix for every bug found.
   - For Go files, ensure error handling is always checked (\`if err != nil\`).`;
 
-const configFields = [
-  { key: "version", desc: "Config schema version. Currently always \"1\"." },
-  { key: "auto_review", desc: "When true, every new pull request is reviewed automatically." },
-  { key: "language", desc: "Language used for review comments: en, id, or zh." },
-  { key: "tone", desc: "Writing style of the review: friendly, strict, or concise." },
-  { key: "review_rules.ignore_paths", desc: "Glob patterns for files or folders Codessa should skip." },
-  {
-    key: "analysis_focus",
-    desc: "Turn security, performance, bugs, and code_style checks on or off individually.",
-  },
-  {
-    key: "severity_threshold",
-    desc: "How strict Codessa is about failing the commit status: critical_only, balanced, or strict.",
-  },
-  { key: "custom_instructions", desc: "Free-form extra instructions for the AI reviewer." },
+const configFieldKeys = [
+  "version",
+  "auto_review",
+  "language",
+  "tone",
+  "review_rules_ignore_paths",
+  "analysis_focus",
+  "severity_threshold",
+  "custom_instructions",
 ];
 
-const setupSteps = [
-  {
-    icon: "login",
-    title: "Sign in using GitHub",
-    body: "Open the Codessa homepage and click Sign up. You'll authorize access through GitHub OAuth — there's no new password to create.",
-  },
-  {
-    icon: "download",
-    title: "Install the GitHub App",
-    body: "From your dashboard, add a repository and install the Codessa GitHub App, choosing which account or organization and which repositories it can access.",
-  },
-  {
-    icon: "toggle_on",
-    title: "Enable AI review on a repository",
-    body: "AI review is off by default. Find the repository in Overview and toggle its status from Disabled to Enabled.",
-  },
-];
+const setupStepIcons = ["login", "download", "toggle_on"];
 
 export function QuickstartArticle() {
+  const locale = useLocale();
+  const t = useTranslations("docs.quickstart");
+
+  const withLocale = (path: string) => `/${locale}${path}`;
+
   return (
     <main className="relative min-w-0 flex-1 scroll-smooth">
       <div className="pointer-events-none absolute -right-32 -top-32 -z-10 h-[600px] w-[600px] rounded-full bg-secondary/5 blur-[120px]" />
@@ -82,14 +69,13 @@ export function QuickstartArticle() {
           <div className="mb-4 flex items-center gap-2 font-mono text-sm">
             <span className="text-primary">docs</span>
             <span className="text-outline">/</span>
-            <span className="text-on-surface-variant">quickstart-guide</span>
+            <span className="text-on-surface-variant">{t("breadcrumb")}</span>
           </div>
           <h1 className="mb-4 font-display text-[32px] font-semibold leading-10 tracking-[-0.01em] text-on-surface">
-            Quickstart Guide
+            {t("title")}
           </h1>
           <p className="text-lg leading-relaxed text-on-surface-variant">
-            Getting Codessa running takes a few minutes: sign in, install the GitHub App, enable AI
-            review, then add a config file to tune how it reviews each repository.
+            {t("description")}
           </p>
         </div>
 
@@ -100,21 +86,21 @@ export function QuickstartArticle() {
               <div className="flex h-8 w-8 items-center justify-center rounded bg-surface-container-high font-mono text-sm text-primary">
                 01
               </div>
-              <h2 className="font-display text-2xl font-semibold text-on-surface">Get connected</h2>
+              <h2 className="font-display text-2xl font-semibold text-on-surface">{t("setup.title")}</h2>
             </div>
 
             <ol className="relative ml-4 space-y-8 border-l border-outline-variant/30">
-              {setupSteps.map((step, i) => (
-                <li key={step.title} className="relative pl-8">
+              {setupStepIcons.map((icon, i) => (
+                <li key={icon} className="relative pl-8">
                   <span className="absolute -left-4 flex h-8 w-8 items-center justify-center rounded-full bg-primary font-mono text-sm font-semibold text-on-primary ring-4 ring-background">
                     {i + 1}
                   </span>
                   <div className="flex items-center gap-2">
-                    <Icon name={step.icon} filled className="text-lg text-primary" />
-                    <h3 className="text-lg font-medium text-on-surface">{step.title}</h3>
+                    <Icon name={icon} filled className="text-lg text-primary" />
+                    <h3 className="text-lg font-medium text-on-surface">{t(`setup.step${i + 1}.title`)}</h3>
                   </div>
                   <p className="mt-1 text-base leading-relaxed text-on-surface-variant">
-                    {step.body}
+                    {t(`setup.step${i + 1}.body`)}
                   </p>
                 </li>
               ))}
@@ -130,12 +116,11 @@ export function QuickstartArticle() {
                 </div>
               </div>
               <span className="inline-flex items-center rounded-md bg-moss-soft px-2 py-0.5 text-xs font-medium text-moss">
-                Enabled
+                {t("setup.enabled")}
               </span>
             </div>
             <p className="mt-4 text-base leading-relaxed text-on-surface-variant">
-              Enabling is per repository — turn it on for some and leave others off. Once enabled,
-              every new pull request is reviewed automatically.
+              {t("setup.enabledDesc")}
             </p>
           </section>
 
@@ -146,34 +131,32 @@ export function QuickstartArticle() {
                 02
               </div>
               <h2 className="font-display text-2xl font-semibold text-on-surface">
-                Configuration Setup
+                {t("config.title")}
               </h2>
             </div>
             <p className="mb-6 text-base leading-relaxed text-on-surface-variant">
-              After enabling a repository, add a{" "}
+              {t("config.description.prefix")}{" "}
               <code className="rounded bg-surface-container px-1.5 py-0.5 font-mono text-sm text-on-surface">
                 .github/.codessa.yml
               </code>{" "}
-              file to the root of that repository. This is where Codessa reads how strict to be, which
-              language to write in, and what to focus on.
+              {t("config.description.suffix")}
             </p>
 
             <CodeBlock filename=".github/.codessa.yml" code={configYaml} />
 
             <ul className="mt-6 space-y-3">
-              {configFields.map((field) => (
-                <li key={field.key} className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
+              {configFieldKeys.map((field) => (
+                <li key={field} className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
                   <code className="w-fit shrink-0 rounded bg-surface-container px-1.5 py-0.5 font-mono text-xs text-primary sm:w-56">
-                    {field.key}
+                    {field}
                   </code>
-                  <p className="text-sm text-on-surface-variant">{field.desc}</p>
+                  <p className="text-sm text-on-surface-variant">{t(`config.fields.${field}`)}</p>
                 </li>
               ))}
             </ul>
 
             <p className="mt-6 text-base leading-relaxed text-on-surface-variant">
-              Push the file to your default branch and it takes effect on the next pull request —
-              nothing is re-reviewed retroactively.
+              {t("config.pushDesc")}
             </p>
           </section>
 

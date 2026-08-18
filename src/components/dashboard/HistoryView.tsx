@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useReviews } from "@/lib/hooks";
 import { Icon } from "@/components/Icon";
 import { ReviewOutcomeBadge } from "@/components/dashboard/ReviewOutcomeBadge";
@@ -12,6 +14,8 @@ import type { Review } from "@/lib/types";
 const PER_PAGE = 10;
 
 export function HistoryView() {
+  const locale = useLocale();
+  const t = useTranslations("dashboard.history");
   const [repoFilter, setRepoFilter] = useState("");
   const [page, setPage] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -21,6 +25,8 @@ export function HistoryView() {
     PER_PAGE,
     page,
   );
+
+  const withLocale = (path: string) => `/${locale}${path}`;
 
   return (
     <div className="relative">
@@ -37,10 +43,10 @@ export function HistoryView() {
         {/* Header */}
         <div>
           <h1 className="font-display text-[32px] font-semibold leading-tight tracking-tight text-on-surface">
-            Review History
+            {t("title")}
           </h1>
           <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">
-            Every pull request Codessa has reviewed, across all your connected repositories.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -57,18 +63,18 @@ export function HistoryView() {
               setRepoFilter(e.target.value);
               setPage(1);
             }}
-            placeholder="Filter by repo (owner/name)..."
+            placeholder={t("filterPlaceholder")}
             className="w-full rounded-lg border border-outline-variant/30 bg-surface-container-highest py-3 pl-12 pr-4 text-sm text-on-surface shadow-inner placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-secondary"
           />
         </div>
 
-        {error && <p className="text-sm text-error">Gagal memuat review history.</p>}
-        {isLoading && <p className="text-sm text-on-surface-variant">Loading...</p>}
+        {error && <p className="text-sm text-error">{t("failedToLoad")}</p>}
+        {isLoading && <p className="text-sm text-on-surface-variant">{t("loading")}</p>}
 
         {!isLoading && reviews && reviews.length === 0 && (
           <div className="rounded-xl border border-dashed border-outline-variant/30 p-8 text-center">
             <p className="text-sm text-on-surface-variant">
-              {repoFilter ? `Tidak ada review untuk "${repoFilter}".` : "Belum ada review."}
+              {repoFilter ? t("noReviewsFilter", { repo: repoFilter }) : t("noReviews")}
             </p>
           </div>
         )}
@@ -130,8 +136,8 @@ export function HistoryView() {
                           e.stopPropagation();
                           setPreviewReview(review);
                         }}
-                        title="Preview & export as PDF"
-                        aria-label="Preview review as PDF"
+                        title={t("previewPdf")}
+                        aria-label={t("previewPdf")}
                         className="flex h-8 w-8 items-center justify-center rounded-full bg-error/10 text-error transition hover:bg-error/20"
                       >
                         <Icon name="picture_as_pdf" filled className="text-[18px]" />
@@ -166,7 +172,7 @@ export function HistoryView() {
                                   <Icon
                                     name={comment.source === "sca" ? "package_2" : "smart_toy"}
                                     className="text-[13px]"
-                                    title={comment.source === "sca" ? "Dependency Scan" : "AI Review"}
+                                    title={comment.source === "sca" ? t("dependencyScan") : t("aiReview")}
                                   />
                                   {comment.filePath}:{comment.line}
                                 </span>
@@ -213,7 +219,7 @@ export function HistoryView() {
         {!isLoading && totalPages !== undefined && totalPages > 1 && (
           <div className="flex items-center justify-between text-xs text-on-surface-variant">
             <span>
-              Page {page} of {totalPages}
+              {t("page", { current: page, total: totalPages })}
             </span>
             <div className="flex gap-2">
               <button
@@ -221,14 +227,14 @@ export function HistoryView() {
                 disabled={page <= 1}
                 className="rounded-md border border-outline-variant/30 px-3 py-1 transition hover:border-outline disabled:opacity-40"
               >
-                Prev
+                {t("prev")}
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
                 className="rounded-md border border-outline-variant/30 px-3 py-1 transition hover:border-outline disabled:opacity-40"
               >
-                Next
+                {t("next")}
               </button>
             </div>
           </div>
