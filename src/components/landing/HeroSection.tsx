@@ -122,7 +122,7 @@ export function HeroSection() {
           <LoginErrorBanner />
         </Suspense>
  
-        <div className="mb-4 inline-flex cursor-pointer items-center gap-2 rounded-full border border-outline-variant/20 bg-surface-container px-4 py-2 shadow-sm transition-transform hover:scale-105">
+        {/* <div className="mb-4 inline-flex cursor-pointer items-center gap-2 rounded-full border border-outline-variant/20 bg-surface-container px-4 py-2 shadow-sm transition-transform hover:scale-105">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-secondary" />
@@ -131,7 +131,7 @@ export function HeroSection() {
             {t("version")}
           </span>
           <Icon name="arrow_forward" className="text-[14px] text-on-surface-variant" />
-        </div>
+        </div> */}
  
         <h1 className="font-display text-[56px] font-bold leading-[1.1] tracking-tighter text-on-surface drop-shadow-sm md:text-[80px]">
           {t("title")}
